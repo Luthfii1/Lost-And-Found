@@ -9,8 +9,8 @@ const Login = () => {
 
         {/* Add messages "Welcome to Lost and Found" in Title and subtitle of "find your lost item!*/}
         <div className='flex flex-col justify-center items-center pt-[1rem]'>
-            <h1 className='text-5xl justify-center text-center font-bold text-black'>Welcome to Lost and Found</h1>
-            <h2 className='text-md font-bold mb-5 text-black'>Find your lost item!</h2>
+            <h1 className='text-3xl md:text-5xl justify-center text-center font-bold text-black mb-1'>Welcome to <br></br>Lost and Found</h1>
+            <h2 className='text-md font-medium mb-5 text-black'>Find your lost item!</h2>
         </div>
 
         {/* Add login form */}
