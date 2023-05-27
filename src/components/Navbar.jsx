@@ -12,7 +12,7 @@ const Navbar = () => {
     }
 
   return (
-    <div className='f text-white bg-black'>
+    <div className=' text-white bg-black'>
         <div className='max-w-[1240px] flex px-4 items-center justify-between h-20 mx-auto'>
 
             {/* For Logo */}
