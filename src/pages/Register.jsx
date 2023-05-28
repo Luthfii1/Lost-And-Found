@@ -1,9 +1,12 @@
+import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import background from '../assets/bg-ui.png'
 import {ImCheckboxChecked} from 'react-icons/im'
 import {FaEyeSlash, FaEye} from 'react-icons/fa'
 
 const Register = () => {
+    const navigate = useNavigate()
+
   return (
     // Add background image for register page, set in background of register form
     <div>
@@ -30,7 +33,7 @@ const Register = () => {
                     <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Major' />
                 </form>
                 <div className='flex justify-center items-center'>
-                    <button className='p-2 rounded-md bg-yellow text-black font-semibold hover:bg-black hover:text-white'>Register</button>
+                    <button className='p-2 rounded-md bg-yellow text-black font-semibold hover:bg-black hover:text-white' onClick={() => navigate('/login')}>Register</button>
                 </div>
             </div>
         </div>

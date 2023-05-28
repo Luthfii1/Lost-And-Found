@@ -1,7 +1,10 @@
+import { useNavigate } from 'react-router-dom'
 import React from 'react'
 import background from '../assets/bg-ui.png'
 
 const Login = () => {
+    const navigate = useNavigate()
+
   return (
     <div>
         {/* Add background image for login page, set in background of login form */}
@@ -20,7 +23,7 @@ const Login = () => {
                 <form className='flex flex-col justify-center items-center'>
                     <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Username' />
                     <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='password' placeholder='Password' />
-                    <button className='p-2 rounded-xl hover:bg-black hover:text-white bg-yellow text-black'>Login</button>
+                    <button className='p-2 rounded-xl hover:bg-black hover:text-white bg-yellow text-black' onClick={() => navigate('/')}>Login</button>
                 </form>
 
                 <div className='flex justify-center items-center mt-5'>
@@ -29,7 +32,7 @@ const Login = () => {
                 </div>
                 <div className='flex justify-center items-center'>
                     <p className='mr-2 text-black'>Don't have an account?</p>
-                    <a className='text-blue-500 underline' href='/'>Register</a>
+                    <a className='text-blue-500 underline' onClick={() => navigate('/register')}>Register</a>
                 </div>
             </div>
         </div>
