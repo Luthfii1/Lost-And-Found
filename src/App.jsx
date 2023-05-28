@@ -4,6 +4,7 @@ import Register from './pages/Register'
 import Homepage from './pages/Homepage'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
+import Sidebar from './components/Sidebar'
 
 const App = () => {
   return (

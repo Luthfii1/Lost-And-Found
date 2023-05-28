@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
-import {MdOutlineMenuOpen, MdOutlineCloseFullscreen} from 'react-icons/md'
+import {MdOutlineMenuOpen, MdOutlineCloseFullscreen, MdOutlineWhereToVote, MdOutlineSettingsSuggest, MdLogout } from 'react-icons/md'
+import {CgProfile} from 'react-icons/cg'
 // import logo from assets/logo2.jpg
 import logo from '../assets/logo_ui.svg'
+
 
 const Navbar = () => {
     // state for menu toggle button 
@@ -12,7 +14,7 @@ const Navbar = () => {
     }
 
   return (
-    <div className=' text-white bg-black'>
+    <div className='md:hidden sm:hidden text-white bg-black rounded-b-2xl'>
         <div className='max-w-[1240px] flex px-4 items-center justify-between h-20 mx-auto'>
 
             {/* For Logo */}
@@ -25,13 +27,6 @@ const Navbar = () => {
                 <input className='p-2 mr-5 rounded-md text-black' type='text' placeholder='Search' />
                 <button className='p-2 rounded-md'>Search</button>
             </div> */}
-            
-
-            <ul className='md:flex hidden'>
-                <li className='p-4 hover:bg-yellow hover:text-black rounded-md'>Profile</li>
-                <li className='p-4 hover:bg-yellow hover:text-black rounded-md'>Settings</li>
-                <li className='p-4 hover:bg-yellow hover:text-black rounded-md'>About Us</li>
-            </ul>
 
             <div onClick={toggleMenu} className='block md:hidden'>
                 {showMenu ? <MdOutlineCloseFullscreen className='h-10 w-10' /> : <MdOutlineMenuOpen className='h-10 w-10' />}
@@ -42,9 +37,22 @@ const Navbar = () => {
                     <img className='h-12 w-12 m-4' src={logo} alt='logo' />
                 </div>
                 <ul className='uppercase '>
-                    <li className='p-4 hover:bg-yellow hover:text-black border-b border-b-[yellow]'>Profile</li>
-                    <li className='p-4 hover:bg-yellow hover:text-black border-b border-b-[yellow]'>Settings</li>
-                    <li className='p-4 hover:bg-yellow hover:text-black '>About Us</li>
+                    <li className='p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]'>
+                        <CgProfile className='h-10 pr-2 w-10' />
+                        Profile
+                    </li>
+                    <li className='p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]'>
+                        <MdOutlineWhereToVote className='h-10 pr-2 w-10' />
+                        Settings
+                    </li>
+                    <li className='p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]'>
+                        <MdOutlineSettingsSuggest className='h-10 pr-2 w-10' />
+                        About Us
+                    </li>
+                    <li className='p-4 flex items-center hover:bg-white text-white bg-red-500 hover:text-red-500 '>
+                        <MdLogout className='h-10 pr-2 w-10' />
+                        Log Out
+                    </li>
                 </ul>
             </div>
         </div>

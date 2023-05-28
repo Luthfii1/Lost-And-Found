@@ -32,7 +32,7 @@ const Login = () => {
                 </div>
                 <div className='flex justify-center items-center'>
                     <p className='mr-2 text-black'>Don't have an account?</p>
-                    <a className='text-blue-500 underline' onClick={() => navigate('/register')}>Register</a>
+                    <a className='text-blue-500 underline hover:cursor-pointer' onClick={() => navigate('/register')}>Register</a>
                 </div>
             </div>
         </div>
