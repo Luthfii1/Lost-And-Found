@@ -30,7 +30,7 @@ export default function Example() {
   }
 
   return (
-    <div className="bg-black rounded-r-xl fixed h-full w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/10">
+    <div className="bg-black z-30 rounded-br-xl fixed h-full w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/10">
       <div className="mb-2">
         <div className="flex items-center">
           <img className="h-16 w-16 m-4" src={logo} alt="logo" />
