@@ -5,13 +5,14 @@ import Sidebar from '../components/Sidebar'
 import NavbarChoice from '../components/NavbarChoice'
 import Test from '../components/test'
 import Post from '../components/Post'
+import PostMessages from '../components/PostMessages'
 
 const Homepage = () => {
   return (
     <div>
         <Navbar />
         <Sidebar />
-        <Test />
+        <PostMessages />
         <NavbarChoice />
         <Post />
         <Footer />
