@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { MdHome, MdSearch, MdOutlineNotificationsActive } from 'react-icons/md';
 import { TbMessages } from 'react-icons/tb';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState('');
 
   const handleButtonClick = (button) => {
@@ -13,11 +15,19 @@ const Footer = () => {
     <div className='fixed bottom-0 left-0 w-full rounded-t-2xl sm:hidden h-16 bg-black text-white flex justify-around items-center'>
       <MdHome
         className={`h-10 w-10 ${activeButton === 'Home' ? 'opacity-100' : 'opacity-50'}`}
-        onClick={() => handleButtonClick('Home')}
+        // Navigate to the home page
+        onClick={() => {
+          handleButtonClick('Home'); 
+          navigate('/Homepage')
+        }}
       />
       <MdSearch
         className={`h-10 w-10 ${activeButton === 'Search' ? 'opacity-100' : 'opacity-50'}`}
-        onClick={() => handleButtonClick('Search')}
+        // Navigate to the search page
+        onClick={() => {
+          handleButtonClick('Search');
+          navigate('/Search')
+        }}
       />
       <div className='flex'>
         <MdOutlineNotificationsActive

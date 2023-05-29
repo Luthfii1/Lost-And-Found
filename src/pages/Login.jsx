@@ -40,7 +40,7 @@ const Login = () => {
                 )}
               </span>
             </div>
-            <button className='p-2 rounded-xl hover:bg-black hover:text-white bg-yellow text-black' onClick={() => navigate('/')}>Login</button>
+            <button className='p-2 rounded-xl hover:bg-black hover:text-white bg-yellow text-black' onClick={() => navigate('/Homepage')}>Login</button>
           </form>
 
           <div className='flex justify-center items-center mt-5'>

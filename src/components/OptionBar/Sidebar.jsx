@@ -4,20 +4,22 @@ import {
   ListItem,
   ListItemPrefix,
 } from "@material-tailwind/react";
-import logo from '../assets/logo_ui.svg';
+import logo from '../../assets/logo_ui.svg';
 import {MdHome, MdSearch, MdOutlineNotificationsActive, MdOutlineSettingsSuggest, MdLogout, MdOutlineWhereToVote} from 'react-icons/md'
 import {TbMessages} from 'react-icons/tb'
 import {CgProfile} from 'react-icons/cg'
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Example() {
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-            
+
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -37,13 +39,15 @@ export default function Example() {
         </div>
       </div>
       <List>
-        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'>
+        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'
+          onClick={() => navigate('/Homepage')}>
           <ListItemPrefix className='pr-5'>
             <MdHome className="h-10 w-10" />
           </ListItemPrefix>
           Home
         </ListItem>
-        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'>
+        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'
+          onClick={() => navigate('/Search')}>
           <ListItemPrefix className='pr-5'>
             <MdSearch className="h-10 w-10" />
           </ListItemPrefix>
@@ -82,7 +86,7 @@ export default function Example() {
             </ListItemPrefix>
             Profile
             </ListItem>
-            <ListItem className='hover:bg-red-500 hover:text-black p-3'>
+            <ListItem className='hover:bg-red-500 hover:text-black p-3 ' onClick={() => navigate('/login')}>
             <ListItemPrefix className='pr-5'>
                 <MdLogout className="h-10 w-10" />
             </ListItemPrefix>
