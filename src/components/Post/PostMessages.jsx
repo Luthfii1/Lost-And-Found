@@ -29,7 +29,7 @@ const PostMessages = () => {
     };
 
   return (
-      <div className='md:ml-[20rem] hover:cursor-pointer mb-10 pt-24 sm:ml-[20rem] p-5 bg-transparent'>
+      <div className='md:ml-[20rem]  hover:cursor-pointer mb-10 pt-24 sm:ml-[20rem] p-5 bg-transparent'>
         {/* // Just need this component */}
         {/* Create a body component  */}
         <div className=' p-2 rounded-lg'>

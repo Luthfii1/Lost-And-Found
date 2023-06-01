@@ -18,7 +18,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0  left-0 right-0 md:hidden sm:hidden text-white bg-black rounded-b-2xl">
+    <div className="absolute z-30 top-0  left-0 right-0 md:hidden sm:hidden text-white bg-black rounded-b-2xl">
       <div className="max-w-[1240px] flex px-4 items-center justify-between h-20 mx-auto">
         {/* For Logo */}
         <div className="flex items-center">

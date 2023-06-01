@@ -6,6 +6,7 @@ import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import Search from './pages/Search'
 import Chat from './pages/Chat'
+import DetailChat from './pages/DetailChat'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path='/search' element={<Search />} />
         <Route path='/chat' element={<Chat />} />
+        <Route path='/detailedChat' element={<DetailChat />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>

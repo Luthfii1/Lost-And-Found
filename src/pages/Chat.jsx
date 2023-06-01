@@ -3,6 +3,7 @@ import PickChat from '../components/Chat/PickChat'
 import Footer from '../components/OptionBar/Footer'
 import Navbar from '../components/OptionBar/Navbar'
 import Sidebar from '../components/OptionBar/Sidebar'
+import ListChat from '../components/Chat/ListChat'
 
 const Chat = () => {
   return (
@@ -10,6 +11,20 @@ const Chat = () => {
         <Navbar />
         <Sidebar />
         <PickChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <ListChat />
+        <div className='h-16 sm:hidden'>
+        </div>
         <Footer />
     </div>
   )
