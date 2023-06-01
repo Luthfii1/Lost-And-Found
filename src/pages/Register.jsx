@@ -41,16 +41,6 @@ const Register = () => {
                 )}
               </span>
             </div>
-            <div className='relative'> 
-              <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type={passwordVisible ? 'text' : 'password'} placeholder=' Confirm Password' />
-              <span className='absolute right-3 top-3 text-black'>
-                {passwordVisible ? (
-                  <AiFillEyeInvisible size={20} onClick={togglePasswordVisibility} />
-                ) : (
-                  <AiFillEye size={20} onClick={togglePasswordVisibility} />
-                )}
-              </span>
-            </div>
             <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Full Name' />
             <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Date of Birth' />
             <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Major' />

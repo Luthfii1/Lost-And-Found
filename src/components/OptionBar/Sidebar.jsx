@@ -40,14 +40,14 @@ export default function Example() {
       </div>
       <List>
         <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'
-          onClick={() => navigate('/Homepage')}>
+          onClick={() => navigate('/homepage')}>
           <ListItemPrefix className='pr-5'>
             <MdHome className="h-10 w-10" />
           </ListItemPrefix>
           Home
         </ListItem>
         <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'
-          onClick={() => navigate('/Search')}>
+          onClick={() => navigate('/search')}>
           <ListItemPrefix className='pr-5'>
             <MdSearch className="h-10 w-10" />
           </ListItemPrefix>
@@ -60,7 +60,8 @@ export default function Example() {
           Notification
           <span class="inline-flex items-center justify-center w-5 h-5 hover:text-yellow hover:bg-black ml-2 text-xs font-semibold text-black bg-yellow rounded-full">2</span>
         </ListItem>
-        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'>
+        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'
+          onClick={() => navigate('/chat')}>
           <ListItemPrefix className='pr-5'>
             <TbMessages className="h-10 w-10" />
           </ListItemPrefix>
@@ -86,7 +87,7 @@ export default function Example() {
             </ListItemPrefix>
             Profile
             </ListItem>
-            <ListItem className='hover:bg-red-500 hover:text-black p-3 ' onClick={() => navigate('/login')}>
+            <ListItem className='hover:bg-red-500 border-b border-b-red-500 hover:text-black p-3 ' onClick={() => navigate('/login')}>
             <ListItemPrefix className='pr-5'>
                 <MdLogout className="h-10 w-10" />
             </ListItemPrefix>

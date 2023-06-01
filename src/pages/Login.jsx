@@ -25,7 +25,7 @@ const Login = () => {
 
       {/* Add login form */}
       <div className='flex justify-center items-center'>
-        <div className='flex flex-col justify-center items-center bg-white rounded-xl shadow-xl p-10'>
+        <div className='flex flex-col justify-center items-center bg-white rounded-xl shadow-xl px-10 py-5'>
           <h1 className='text-4xl font-bold mb-5 text-black'>Login</h1>
           <form className='flex flex-col justify-center items-center'>
             <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Username' />

@@ -5,6 +5,7 @@ import Homepage from './pages/Homepage'
 import NotFound from './pages/NotFound'
 import Login from './pages/Login'
 import Search from './pages/Search'
+import Chat from './pages/Chat'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/homepage' element={<Homepage />} />
         <Route path='/register' element={<Register />} />
         <Route path='/search' element={<Search />} />
+        <Route path='/chat' element={<Chat />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
