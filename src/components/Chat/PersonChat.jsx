@@ -1,14 +1,25 @@
 import React from 'react';
 import { IoMdSend } from 'react-icons/io';
+import { MdArrowBack } from 'react-icons/md';
 import ava from '../../assets/ava.jpg';
 import Receive from './Receive';
+import { useNavigate } from 'react-router-dom';
 
 const PersonChat = () => {
+  const navigate = useNavigate();
+
+  const handleGoBack = () => {
+    navigate(-1); // Navigate back to the previous page
+  };
+
   return (
     <div>
       {/* Header */}
       <div className="fixed sm:left-[20rem] bg-white top-0 left-0 right-0 items-center justify-between text-black px-4 py-4 border-b border-yellow">
         <div className="flex items-center">
+          <div className="hover:cursor-pointer" onClick={handleGoBack}>
+            <MdArrowBack className="text-2xl text-black mr-4" />
+          </div>
           <img className="w-12 h-12 rounded-full" src={ava} alt="ava" />
           <div className="ml-4">
             <div className="font-medium text-black ">John Doe</div>

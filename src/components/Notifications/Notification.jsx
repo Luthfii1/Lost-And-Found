@@ -1,13 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
 const Notification = ({ message, type, onClose }) => {
+  const [progress, setProgress] = useState(100);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
     }, 2000);
 
-    return () => clearTimeout(timer);
+    const interval = setInterval(() => {
+      setProgress(prevProgress => prevProgress - (100 / 2000) * 1000);
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [onClose]);
 
   // Set the notification in the middle of the screen with absolute position and white background
@@ -23,6 +32,12 @@ const Notification = ({ message, type, onClose }) => {
           <button onClick={onClose} className='text-black bg-white ml-3'>
             <MdClose size={20} />
           </button>
+        </div>
+        <div className='bg-white h-2 mt-2'>
+          <div
+            className='bg-black h-full'
+            style={{ width: `${progress * 1}%`, transition: 'width 1s linear' }}
+          />
         </div>
       </div>
     </div>
