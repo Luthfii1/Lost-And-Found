@@ -18,11 +18,21 @@ const Register = () => {
   const [notificationType, setNotificationType] = useState('');
   const [isEmailAvailable, setIsEmailAvailable] = useState(true);
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
+       // Email validation regex pattern
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+      // Validate the email address using the regex pattern
+      if (!emailPattern.test(email)) {
+        setIsEmailValid(false);
+        return;
+      }
+
       const body = { email, username, password, name, birth_date, jurusan_kuliah };
       
       const response = await fetch('http://localhost:5000/register', {
@@ -95,8 +105,14 @@ const Register = () => {
               type='email' 
               placeholder='Email' 
               value={email}
-              onChange={(e) => setEmail(e.target.value)} 
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setIsEmailValid(true); // Reset the email validation state
+              }} 
             />
+            {!isEmailValid && (
+              <p className="text-red-500 text-sm">Please enter a valid email address.</p>
+            )}
             <input 
               className={`p-2 mb-5 rounded-md border-b border-b-black text-black ${isUsernameAvailable ? 'border-green-500' : 'border-red-500 bg-red-300'}`} 
               type='text' 
