@@ -1,5 +1,6 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom' 
-import React from 'react'
+import { BrowserRouter as Router, Routes, Route,  } from 'react-router-dom' 
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import Register from './pages/Register'
 import Homepage from './pages/Homepage'
 import NotFound from './pages/NotFound'
@@ -9,16 +10,52 @@ import Chat from './pages/Chat'
 import DetailChat from './pages/DetailChat'
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setAuth = (boolean) => {
+    setIsAuthenticated(boolean);
+  };
+
   return (
     <Router>
       <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/homepage' element={<Homepage />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/search' element={<Search />} />
-        <Route path='/chat' element={<Chat />} />
-        <Route path='/detailedChat' element={<DetailChat />} />
-        <Route path='*' element={<NotFound />} />
+        <Route
+          exact
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/homepage" /> : <Login />}
+        />
+        <Route
+          exact
+          path="/homepage"
+          element={
+            isAuthenticated ? <Homepage /> : <Navigate to="/login" />
+          }
+        />
+        <Route 
+          exact 
+          path='/register' 
+          element={<Register />} 
+        />
+        <Route 
+          exact 
+          path='/search' 
+          element={<Search />} 
+        />
+        <Route 
+          exact 
+          path='/chat' 
+          element={<Chat />} 
+        />
+        <Route 
+          exact 
+          path='/detailedChat' 
+          element={<DetailChat />} 
+        />
+        <Route 
+          exact 
+          path='*' 
+          element={<NotFound />} 
+        />
       </Routes>
     </Router>
   )
