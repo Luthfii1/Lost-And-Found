@@ -22,13 +22,13 @@ const App = () => {
         <Route
           exact
           path="/login"
-          element={isAuthenticated ? <Navigate to="/homepage" /> : <Login />}
+          element={isAuthenticated ? <Navigate to="/homepage" /> : <Login setAuth={setAuth} />}
         />
         <Route
           exact
           path="/homepage"
           element={
-            isAuthenticated ? <Homepage /> : <Navigate to="/login" />
+            isAuthenticated ? <Homepage setAuth={setAuth} /> : <Navigate to="/login" />
           }
         />
         <Route 

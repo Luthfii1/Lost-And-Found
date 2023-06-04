@@ -74,13 +74,13 @@ export default function Example() {
           </ListItemPrefix>
           Settings
         </ListItem>
-        <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'>
+        <ListItem className='hover:bg-yellow border-b mb-16 border-b-[yellow] hover:text-black p-3'>
           <ListItemPrefix className='pr-5'>
             <MdOutlineWhereToVote className="h-10 w-10" />
           </ListItemPrefix>
           About Us
         </ListItem>
-        <div className='fixed bottom-0 pb-5 w-full max-w-[17rem]'>
+        <div className='flex flex-col bottom-0 pb-5 w-full max-w-[17rem]'>
             <ListItem className='hover:bg-yellow border-b border-b-[yellow]  hover:text-black p-3'>
             <ListItemPrefix className='pr-5'>
                 <CgProfile className="h-10 w-10" />

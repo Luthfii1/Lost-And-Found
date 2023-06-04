@@ -3,14 +3,78 @@ import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import React from 'react';
 import background from '../assets/bg-ui.png';
+import Notification from '../components/Notifications/Notification';
 
-const Login = () => {
+const Login = ({ setAuth }) => {
   const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [input, setInput] = useState({
+    username: '',
+    password: '',
+  });
+
+  const { username, password } = input;
+
+  const onChange = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  };
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
+  const onSubmitForm = async (e) => {
+    e.preventDefault();
+    try {
+      const body = { username, password };
+      
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        setAuth(true);
+        // Send the id of the user to the homepage
+        localStorage.setItem('user_id', data.user_id);
+        setShowNotification(true);
+        setNotificationMessage('Login successful!');
+        setNotificationType('success');
+        navigate('/homepage');
+      }
+
+      if (response.status === 401) {
+        setAuth(false);
+        setShowNotification(true);
+        setNotificationMessage('Invalid credentials!');
+        setNotificationType('error');
+        setInput({ username: '', password: '' });
+      }
+
+      if (response.status === 500) {
+        setAuth(false);
+        setShowNotification(true);
+        setNotificationMessage('Server error!');
+        setNotificationType('error');
+        setInput({ username: '', password: '' });
+      }
+
+      console.log(data);
+
+    } catch (err) {
+      console.error(err.message);  
+    }
+  };
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState('');
+  
+  
 
   return (
     <div>
@@ -27,11 +91,28 @@ const Login = () => {
       <div className='flex justify-center items-center'>
         <div className='flex flex-col justify-center items-center bg-white rounded-xl shadow-xl px-10 py-5'>
           <h1 className='text-4xl font-bold mb-5 text-black'>Login</h1>
-          <form className='flex flex-col justify-center items-center'>
-            <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type='text' placeholder='Username' />
+          <form 
+            className='flex flex-col justify-center items-center'
+            onSubmit={onSubmitForm}
+            >
+            <input 
+              className='p-2 mb-5 rounded-md border-b border-b-black text-black' 
+              type='text' 
+              placeholder='Username'
+              value={username}
+              name='username'
+              onChange={(e) => onChange(e)}
+            />
             {/* When icon eyes clicked, could see the password */}
             <div className='relative'>
-              <input className='p-2 mb-5 rounded-md border-b border-b-black text-black' type={passwordVisible ? 'text' : 'password'} placeholder='Password' />
+              <input 
+                className='p-2 mb-5 rounded-md border-b border-b-black text-black' 
+                type={passwordVisible ? 'text' : 'password'} 
+                placeholder='Password' 
+                value={password}
+                name='password'
+                onChange={(e) => onChange(e)}
+              />
               <span className='absolute right-3 top-3 text-black'>
                 {passwordVisible ? (
                   <AiFillEyeInvisible size={20} onClick={togglePasswordVisibility} />
@@ -40,7 +121,10 @@ const Login = () => {
                 )}
               </span>
             </div>
-            <button className='p-2 rounded-xl hover:bg-black hover:text-white bg-yellow text-black' onClick={() => navigate('/Homepage')}>Login</button>
+            <button 
+              className='p-2 rounded-xl hover:bg-black hover:text-white bg-yellow text-black' 
+              type='submit'
+            >Login</button>
           </form>
 
           <div className='flex justify-center items-center mt-5'>
@@ -69,6 +153,13 @@ const Login = () => {
           <button className='px-10 w-15 rounded-xl hover:bg-black hover:text-white bg-yellow text-black'>Continue with SSO</button>
         </div>
       </div>
+      {showNotification && (
+        <Notification
+          message={notificationMessage}
+          type={notificationType}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
     </div>
   );
 };

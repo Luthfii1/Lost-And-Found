@@ -10,11 +10,15 @@ const PostMessages = ({ link }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
     const [tweets, setTweets] = useState([]);
-    
+    // Get user id from local storage
+    const user_id = localStorage.getItem('user_id');
 
     const getTweets = async () => {
         try {
-        const response = await fetch(link);
+        const response = await fetch(link, {
+            method: 'GET',
+            headers: { token: localStorage.token },
+        });
         const jsonData = await response.json();
 
         setTweets(jsonData);
@@ -22,7 +26,6 @@ const PostMessages = ({ link }) => {
         console.log(err.message);
         }
     };
-    
     
     useEffect(() => {
         getTweets();
