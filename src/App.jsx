@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Search from './pages/Search'
 import Chat from './pages/Chat'
 import DetailChat from './pages/DetailChat'
+import Profile from './pages/Profile'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -59,17 +60,23 @@ const App = () => {
         <Route 
           exact 
           path='/search' 
-          element={<Search />} 
+          // element={<Search />}
+          element={isAuthenticated ? <Search setAuth={setAuth} /> : <Navigate to="/login" />}  
         />
         <Route 
           exact 
           path='/chat' 
-          element={<Chat />} 
+          element={isAuthenticated ? <Chat setAuth={setAuth} /> : <Navigate to="/login" />} 
         />
         <Route 
           exact 
           path='/detailedChat' 
-          element={<DetailChat />} 
+          element={isAuthenticated ? <DetailChat setAuth={setAuth} /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          exact 
+          path='/profile/:id'
+          element={isAuthenticated ? <Profile setAuth={setAuth} /> : <Navigate to="/login" />} 
         />
         <Route 
           exact 

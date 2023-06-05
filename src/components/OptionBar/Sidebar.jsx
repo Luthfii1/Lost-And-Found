@@ -16,8 +16,12 @@ import 'react-toastify/dist/ReactToastify.css';
 export default function Example({ setAuth }) {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
+  const [userId, setUserId] = useState('');
+  
   useEffect(() => {
+    const userId = localStorage.getItem('user_id');
+    setUserId(userId);
+
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -93,11 +97,13 @@ export default function Example({ setAuth }) {
           About Us
         </ListItem>
         <div className='flex flex-col bottom-0 pb-5 w-full max-w-[17rem]'>
-            <ListItem className='hover:bg-yellow border-b border-b-[yellow]  hover:text-black p-3'>
-            <ListItemPrefix className='pr-5'>
-                <CgProfile className="h-10 w-10" />
-            </ListItemPrefix>
-            Profile
+            <ListItem 
+              className='hover:bg-yellow border-b border-b-[yellow]  hover:text-black p-3'
+              onClick={() => navigate(`/profile/${userId}`)}>
+              <ListItemPrefix className='pr-5'>
+                  <CgProfile className="h-10 w-10" />
+              </ListItemPrefix>
+              Profile
             </ListItem>
             <ListItem className='hover:bg-red-500 border-b border-b-red-500 hover:text-black p-3 '
             onClick={logout}

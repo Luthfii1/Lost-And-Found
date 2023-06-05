@@ -6,47 +6,55 @@ import { BsThreeDots, BsLink45Deg } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 
 // Create a component for post messages like twitter
-const PostMessages = ({ link }) => {
+const PostMessages = ({ link, inProfileRoute }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef(null);
+    const containerRef = useRef(null);
     const [tweets, setTweets] = useState([]);
     // Get user id from local storage
     const user_id = localStorage.getItem('user_id');
+    const [selectedPost, setSelectedPost] = useState(null);
+    
 
     const getTweets = async () => {
-        try {
+      try {
         const response = await fetch(link, {
-            method: 'GET',
-            headers: { token: localStorage.token },
+          method: 'GET',
+          headers: { token: localStorage.token },
         });
         const jsonData = await response.json();
-
+  
         setTweets(jsonData);
-        } catch (err) {
+      } catch (err) {
         console.log(err.message);
-        }
+      }
+    };
+    
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
     };
     
     useEffect(() => {
-        getTweets();
-
-      const handleClickOutside = event => {
-          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-              setShowDropdown(false);
-            }
-        };
-        
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
+      getTweets();
+  
+  
+      document.addEventListener('mousedown', handleClickOutside);
+  
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
     }, [link]);
     
     console.log(tweets);
     
-    const handleDropdownClick = () => {
-        setShowDropdown(!showDropdown);
+    const handleDropdownClick = (index) => {
+      setSelectedPost(index === selectedPost ? null : index);
+      setShowDropdown(true);
     };
 
     const getStatusColor = status => {
@@ -77,9 +85,13 @@ const PostMessages = ({ link }) => {
     };
 
   return (
-    <div className='md:ml-[20rem]  hover:cursor-pointer mb-10 pt-20 sm:ml-[20rem] p-0 bg-transparent'>
-      {tweets.map(tweet => (
-        <div key={tweet.id} className='py-2 rounded-lg'>
+    <div 
+      ref={containerRef}
+      // When in profile page, no padding top
+      className={`md:ml-[20rem] hover:cursor-pointer mb-10 ${inProfileRoute ? '' : 'pt-20'} sm:ml-[20rem] bg-transparent`}
+    >
+      {tweets.map((tweet, index) => (
+        <div key={index} className='py-2 rounded-lg'>
           <div className='flex justify-between px-4 items-center'>
             <div className='flex items-center'>
               <img src={avatar} alt='avatar' className='h-12 w-12 rounded-full mr-3' />
@@ -121,30 +133,33 @@ const PostMessages = ({ link }) => {
             </div>
             {/* TODO : the option button tweet can't opened by index */}
             <div className='flex items-center'>
-              <BsThreeDots className='h-6 w-6 mr-2 text-black' onClick={handleDropdownClick} />
-              {showDropdown && (
-                <div ref={dropdownRef} className='absolute right-5 mb-20 bg-white rounded-lg shadow-lg'>
-                  <ul className=''>
-                    <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow'>
-                      <GiShare className='h-6 w-6 mr-2 text-black' />
-                      Share
-                    </li>
-                    <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow '>
-                      <BsLink45Deg className='h-6 w-6 mr-2 text-black' />
-                      Copy Link
-                    </li>
-                    <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-red-500 hover:text-white '>
-                      <MdDelete className='h-6 w-6 mr-2 text-black' />
-                      Delete
-                    </li>
-                  </ul>
-                </div>
-              )}
+              <BsThreeDots className='h-6 w-6 mr-2 text-black' 
+              onClick={() => handleDropdownClick(index)} 
+            />
+            {selectedPost === index && showDropdown && (
+              <div ref={dropdownRef} className='absolute right-5 mb-20 bg-white rounded-lg shadow-lg'>
+                <ul>
+                  <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow'>
+                    <GiShare className='h-6 w-6 mr-2 text-black' />
+                    Share
+                  </li>
+                  <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow '>
+                    <BsLink45Deg className='h-6 w-6 mr-2 text-black' />
+                    Copy Link
+                  </li>
+                  <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-red-500 hover:text-white '>
+                    <MdDelete className='h-6 w-6 mr-2 text-black' />
+                    Delete
+                  </li>
+                </ul>
+              </div>
+            )}
             </div>
           </div>
           <div className='border-b-2 border-[#717978] mb-1'></div>
         </div>
       ))}
+      <div className='h-6 sm:h-0'></div>
     </div>
   );
 };
