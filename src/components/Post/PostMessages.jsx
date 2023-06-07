@@ -2,84 +2,115 @@ import React, { useState, useRef, useEffect } from 'react';
 import avatar from '../../assets/ava.jpg';
 import { FaRegCommentDots, FaTelegramPlane, FaBookmark } from 'react-icons/fa';
 import { GiOrbDirection, GiShare } from 'react-icons/gi';
-import { BsThreeDots, BsLink45Deg } from 'react-icons/bs';
+import { BsThreeDots, BsLink45Deg, BsTrash } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 // Create a component for post messages like twitter
 const PostMessages = ({ link }) => {
-    const [showDropdown, setShowDropdown] = useState(false);
-    const dropdownRef = useRef(null);
-    const [tweets, setTweets] = useState([]);
-    // Get user id from local storage
-    const user_id = localStorage.getItem('user_id');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+  const dropdownRef = useRef(null);
+  const [tweets, setTweets] = useState([]);
+  // Get user id from local storage
+  const user_id = localStorage.getItem('user_id');
 
-    const getTweets = async () => {
-        try {
-        const response = await fetch(link, {
-            method: 'GET',
-            headers: { token: localStorage.token },
-        });
-        const jsonData = await response.json();
+  const handleDropdownClick = (index) => {
+    if (selectedPost === index) {
+      setShowDropdown((prevState) => !prevState);
+    } else {
+      setSelectedPost(index);
+      setShowDropdown(true);
+    }
+  };
 
-        setTweets(jsonData);
-        } catch (err) {
-        console.log(err.message);
-        }
-    };
-    
-    useEffect(() => {
-        getTweets();
+  const getTweets = async () => {
+    try {
+      const response = await fetch(link, {
+        method: 'GET',
+        headers: { token: localStorage.token },
+      });
+      const jsonData = await response.json();
 
-      const handleClickOutside = event => {
-          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-              setShowDropdown(false);
-            }
-        };
-        
-        document.addEventListener('mousedown', handleClickOutside);
+      setTweets(jsonData);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [link]);
-    
-    console.log(tweets);
-    
-    const handleDropdownClick = () => {
-        setShowDropdown(!showDropdown);
+  useEffect(() => {
+    getTweets();
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
     };
 
-    const getStatusColor = status => {
-        switch (status) {
-        case 'Lost':
-            return 'bg-[#ff6b00]';
-        case 'Found':
-            return 'bg-[#ffd369]';
-        case 'Gotcha!':
-            return 'bg-[#21c54f]';
-        case 'Share':
-            return 'bg-[#10b5a1]';
-        default:
-            return '';
-        }
-    };
+    document.addEventListener('mousedown', handleClickOutside);
 
-    const formatDate = (timestamp) => {
-        const date = new Date(timestamp);
-    
-        const day = date.getDate();
-        const month = date.toLocaleString('default', { month: 'long' });
-        const year = date.getFullYear();
-        const hours = date.getHours().toString().padStart(2, '0');
-        const minutes = date.getMinutes().toString().padStart(2, '0');
-    
-        return `${day} ${month} ${year} ${hours}:${minutes}`;
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
     };
+  }, [link]);
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Lost':
+        return 'bg-[#ff6b00]';
+      case 'Found':
+        return 'bg-[#ffd369]';
+      case 'Gotcha!':
+        return 'bg-[#21c54f]';
+      case 'Share':
+        return 'bg-[#10b5a1]';
+      default:
+        return '';
+    }
+  };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${day} ${month} ${year} ${hours}:${minutes}`;
+  };
+
+  const handleDelete = async (tweet) => {
+    try {
+      // Send a DELETE request to delete the post by post_id
+      const response = await fetch(`http://localhost:5000/posts/${tweet.post_id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          token: localStorage.token,
+        },
+      });
+  
+      if (response.ok) {
+        // Remove the deleted tweet from the tweets state
+        setTweets((prevTweets) => prevTweets.filter((t) => t.post_id !== tweet.post_id));
+        toast.success('Post deleted successfully!');
+      } else {
+        toast.error('Failed to delete post. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      toast.error('An error occurred. Please try again later.');
+    }
+
+    setShowDropdown(false);
+  };  
 
   return (
-    <div className='md:ml-[20rem]  hover:cursor-pointer mb-10 pt-20 sm:ml-[20rem] p-0 bg-transparent'>
-      {tweets.map(tweet => (
-        <div key={tweet.id} className='py-2 rounded-lg'>
+    <div className='md:ml-[20rem] hover:cursor-pointer mb-10 pt-20 sm:ml-[20rem] p-0 bg-transparent'>
+      {tweets.map((tweet, index) => (
+        <div key={index} className='py-2 rounded-lg'>
           <div className='flex justify-between px-4 items-center'>
             <div className='flex items-center'>
               <img src={avatar} alt='avatar' className='h-12 w-12 rounded-full mr-3' />
@@ -89,10 +120,11 @@ const PostMessages = ({ link }) => {
               </div>
             </div>
             <div className='items-center flex flex-col'>
-              <button className={`bg-[#00ffb3] text-white px-4 py-2 mb-1 rounded-3xl text-xs font-normal 
-                  ${getStatusColor(
+              <button
+                className={`bg-[#00ffb3] text-white px-4 py-2 mb-1 rounded-3xl text-xs font-normal ${getStatusColor(
                   tweet.status
-                )}`}>
+                )}`}
+              >
                 {tweet.status}
               </button>
               <span className='text-gray-700 text-sm'>at Kutek Area</span>
@@ -119,10 +151,12 @@ const PostMessages = ({ link }) => {
             <div className='flex items-center'>
               <FaBookmark className='h-6 w-6 mr-2 text-black' />
             </div>
-            {/* TODO : the option button tweet can't opened by index */}
             <div className='flex items-center'>
-              <BsThreeDots className='h-6 w-6 mr-2 text-black' onClick={handleDropdownClick} />
-              {showDropdown && (
+              <BsThreeDots
+                className='h-6 w-6 mr-2 text-black'
+                onClick={() => handleDropdownClick(index)}
+              />
+              {selectedPost === index && showDropdown && (
                 <div ref={dropdownRef} className='absolute right-5 mb-20 bg-white rounded-lg shadow-lg'>
                   <ul className=''>
                     <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow'>
@@ -133,10 +167,16 @@ const PostMessages = ({ link }) => {
                       <BsLink45Deg className='h-6 w-6 mr-2 text-black' />
                       Copy Link
                     </li>
-                    <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-red-500 hover:text-white '>
-                      <MdDelete className='h-6 w-6 mr-2 text-black' />
-                      Delete
-                    </li>
+                    {/* Delete just shown up if the user_id in local memory is the same as the user_id of the post */}
+                    {tweet.user_id.toString() === user_id && (
+                      <li
+                        className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-red-500'
+                        onClick={() => handleDelete(tweet)}
+                      >
+                        <MdDelete className='h-6 w-6 mr-2 text-black' />
+                        Delete
+                      </li>
+                    )}
                   </ul>
                 </div>
               )}

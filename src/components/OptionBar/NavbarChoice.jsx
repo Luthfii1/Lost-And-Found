@@ -17,7 +17,7 @@ const NavbarChoice = () => {
       link = 'http://localhost:5000/posts/share';
     }
     // Pass the link to the callback function
-    updateTweetData(link);
+    // updateTweetData(link);
   };
   
 
@@ -55,7 +55,7 @@ const NavbarChoice = () => {
   return (
     <div >
       <div className={`fixed top-0 left-0 right-0 justify-evenly sm:left-[20rem] text-white bg-black rounded-b-2xl 
-        ${isMobile ? `${showNavbar ? 'flex' : 'hidden'}` : 'flex'}`}>
+        ${isMobile ? `${showNavbar ? 'flex' : 'hidden'}` : 'flex z-10'}`}>
 
       <div className='max-w-[1240px] flex '>
         {/* Create 4 Buttons for All, Lost, Found, and Share justify between*/}

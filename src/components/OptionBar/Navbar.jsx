@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineMenuOpen, MdOutlineCloseFullscreen, MdOutlineWhereToVote, MdOutlineSettingsSuggest, MdLogout } from 'react-icons/md';
 import { CgProfile } from 'react-icons/cg';
 import logo from '../../assets/logo_ui.svg';

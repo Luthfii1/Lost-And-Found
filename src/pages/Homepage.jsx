@@ -12,6 +12,7 @@ const Homepage = () => {
         <Sidebar />
         <NavbarChoice />
         <Post />
+        <div className='h-4 sm:h-0'></div>
         <Footer />
     </div>
   )

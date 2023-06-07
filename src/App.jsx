@@ -59,17 +59,17 @@ const App = () => {
         <Route 
           exact 
           path='/search' 
-          element={<Search />} 
+          element={isAuthenticated ? <Search /> : <Navigate to="/login" />}
         />
         <Route 
           exact 
           path='/chat' 
-          element={<Chat />} 
+          element={isAuthenticated ? <Chat /> : <Navigate to="/login" />}
         />
         <Route 
           exact 
           path='/detailedChat' 
-          element={<DetailChat />} 
+          element={isAuthenticated ? <DetailChat /> : <Navigate to="/login" />} 
         />
         <Route 
           exact 
