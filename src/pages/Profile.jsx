@@ -5,11 +5,11 @@ import Sidebar from '../components/OptionBar/Sidebar'
 import Post from '../components/Post/Post'
 import HeaderProfile from '../components/Profile/HeaderProfile'
 
-const Profile = ({ id }) => {
+const Profile = ({ id, setAuth }) => {
   return (
     <div>
         {/* <Navbar /> */}
-        <Sidebar />
+        <Sidebar setAuth={setAuth} />
         <HeaderProfile id={id}/>
         <Post />
         <Footer />
