@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { MdOutlineMenuOpen, MdOutlineCloseFullscreen, MdOutlineWhereToVote, MdOutlineSettingsSuggest, MdLogout } from 'react-icons/md';
 import { CgProfile } from 'react-icons/cg';
 import logo from '../../assets/logo_ui.svg';
@@ -11,12 +11,6 @@ const Navbar = () => {
 
   // state for menu toggle button
   const [showMenu, setShowMenu] = useState(false);
-  const [userId, setUserId] = useState('');
-
-  useEffect(() => {
-    const userId = localStorage.getItem('user_id');
-    setUserId(userId);
-  }, []);
 
   // function to toggle menu, called when menu button is clicked
   const toggleMenu = () => {
@@ -47,9 +41,7 @@ const Navbar = () => {
             <img className="h-12 w-12 m-4" src={logo} alt="logo" />
           </div>
           <ul className="uppercase">
-            <li
-              className="p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]"
-              onClick={() => navigate(`/profile/${userId}`)}>
+            <li className="p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]">
               <CgProfile className="h-10 pr-2 w-10" />
               Profile
             </li>
