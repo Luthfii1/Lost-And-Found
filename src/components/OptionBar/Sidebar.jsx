@@ -9,11 +9,9 @@ import {MdHome, MdSearch, MdOutlineNotificationsActive, MdOutlineSettingsSuggest
 import {TbMessages} from 'react-icons/tb'
 import {CgProfile} from 'react-icons/cg'
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
-export default function Example({ setAuth }) {
+export default function Example() {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [userId, setUserId] = useState('');
@@ -36,16 +34,6 @@ export default function Example({ setAuth }) {
   if (isMobile) {
     return null; // Return null to hide the sidebar on mobile
   }
-
-  const logout = e => {
-    e.preventDefault();
-    localStorage.removeItem('token');
-    localStorage.removeItem('user_id');
-    toast.success('Logout successfully!');
-    navigate('/login');
-    setAuth(false);
-  };
-
 
   return (
     <div className="bg-black z-30 rounded-br-xl fixed h-full w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/10">
@@ -74,7 +62,7 @@ export default function Example({ setAuth }) {
             <MdOutlineNotificationsActive className="h-10 w-10" />
           </ListItemPrefix>
           Notification
-          <span className="inline-flex items-center justify-center w-5 h-5 hover:text-yellow hover:bg-black ml-2 text-xs font-semibold text-black bg-yellow rounded-full">2</span>
+          <span class="inline-flex items-center justify-center w-5 h-5 hover:text-yellow hover:bg-black ml-2 text-xs font-semibold text-black bg-yellow rounded-full">2</span>
         </ListItem>
         <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'
           onClick={() => navigate('/chat')}>
@@ -82,7 +70,7 @@ export default function Example({ setAuth }) {
             <TbMessages className="h-10 w-10" />
           </ListItemPrefix>
           Massages
-          <span className="inline-flex items-center justify-center w-5 h-5 hover:text-yellow hover:bg-black ml-2 text-xs font-semibold text-black bg-yellow rounded-full">2</span>
+          <span class="inline-flex items-center justify-center w-5 h-5 hover:text-yellow hover:bg-black ml-2 text-xs font-semibold text-black bg-yellow rounded-full">2</span>
         </ListItem>
         <ListItem className='hover:bg-yellow border-b border-b-[yellow] hover:text-black p-3'>
           <ListItemPrefix className='pr-5'>
@@ -105,9 +93,7 @@ export default function Example({ setAuth }) {
               </ListItemPrefix>
               Profile
             </ListItem>
-            <ListItem className='hover:bg-red-500 border-b border-b-red-500 hover:text-black p-3 '
-            onClick={logout}
-            >
+            <ListItem className='hover:bg-red-500 border-b border-b-red-500 hover:text-black p-3 ' onClick={() => navigate('/login')}>
             <ListItemPrefix className='pr-5'>
                 <MdLogout className="h-10 w-10" />
             </ListItemPrefix>

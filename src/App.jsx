@@ -17,26 +17,6 @@ const App = () => {
     setIsAuthenticated(boolean);
   };
 
-  // Set the refresh token
-  async function isAuth() {
-    try {
-      const response = await fetch('http://localhost:5000/is-verify', {
-        method: 'GET',
-        headers: { token: localStorage.token },
-      });
-
-      const parseRes = await response.json();
-
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
-    } catch (err) {
-      console.error(err.message);
-    }
-  }
-
-  useEffect(() => {
-    isAuth();
-  });
-
   return (
     <Router>
       <Routes>
@@ -55,7 +35,7 @@ const App = () => {
         <Route 
           exact 
           path='/register' 
-          element={isAuthenticated ? <Navigate to="/homepage" /> : <Register />}
+          element={<Register />} 
         />
         <Route 
           exact 

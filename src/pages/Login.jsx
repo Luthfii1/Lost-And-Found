@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import React from 'react';
 import background from '../assets/bg-ui.png';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Notification from '../components/Notifications/Notification';
 
 const Login = ({ setAuth }) => {
   const navigate = useNavigate();
@@ -37,15 +36,30 @@ const Login = ({ setAuth }) => {
 
       const data = await response.json();
 
-      if (data.token) {
-        setAuth(true);
+      if (response.ok) {
         localStorage.setItem('token', data.token);
+        setAuth(true);
+        // Send the id of the user to the homepage
         localStorage.setItem('user_id', data.user_id);
-        toast.success('Login successfully!');
+        setShowNotification(true);
+        setNotificationMessage('Login successful!');
+        setNotificationType('success');
         navigate('/homepage');
-      } else {
+      }
+
+      if (response.status === 401) {
         setAuth(false);
-        toast.error(data);
+        setShowNotification(true);
+        setNotificationMessage('Invalid credentials!');
+        setNotificationType('error');
+        setInput({ username: '', password: '' });
+      }
+
+      if (response.status === 500) {
+        setAuth(false);
+        setShowNotification(true);
+        setNotificationMessage('Server error!');
+        setNotificationType('error');
         setInput({ username: '', password: '' });
       }
 
@@ -55,6 +69,12 @@ const Login = ({ setAuth }) => {
       console.error(err.message);  
     }
   };
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationType, setNotificationType] = useState('');
+  
+  
 
   return (
     <div>
@@ -133,7 +153,13 @@ const Login = ({ setAuth }) => {
           <button className='px-10 w-15 rounded-xl hover:bg-black hover:text-white bg-yellow text-black'>Continue with SSO</button>
         </div>
       </div>
-      <ToastContainer />
+      {showNotification && (
+        <Notification
+          message={notificationMessage}
+          type={notificationType}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
     </div>
   );
 };
