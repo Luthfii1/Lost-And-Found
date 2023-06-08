@@ -3,14 +3,24 @@ import { MdOutlineMenuOpen, MdOutlineCloseFullscreen, MdOutlineWhereToVote, MdOu
 import { CgProfile } from 'react-icons/cg';
 import logo from '../../assets/logo_ui.svg';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const Navbar = () => {
+const Navbar = ({ setAuth }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isSearchRoute = location.pathname === '/Search';
 
   // state for menu toggle button
   const [showMenu, setShowMenu] = useState(false);
+
+  const logout = e => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+    toast.success('Logout successfully!');
+    navigate('/login');
+    setAuth(false);
+  };
 
   // function to toggle menu, called when menu button is clicked
   const toggleMenu = () => {
@@ -41,7 +51,10 @@ const Navbar = () => {
             <img className="h-12 w-12 m-4" src={logo} alt="logo" />
           </div>
           <ul className="uppercase">
-            <li className="p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]">
+            <li 
+              className="p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]"
+              onClick={() => navigate('/profile')}
+              >
               <CgProfile className="h-10 pr-2 w-10" />
               Profile
             </li>
@@ -53,7 +66,10 @@ const Navbar = () => {
               <MdOutlineSettingsSuggest className="h-10 pr-2 w-10" />
               About Us
             </li>
-            <li className="p-4 flex items-center hover:bg-white text-white bg-red-500 hover:text-red-500 " onClick={() => navigate('/login')}>
+            <li 
+              className="p-4 flex items-center hover:bg-white text-white bg-red-500 hover:text-red-500 " 
+              onClick={logout}
+              >
               <MdLogout className="h-10 pr-2 w-10" />
               Log Out
             </li>

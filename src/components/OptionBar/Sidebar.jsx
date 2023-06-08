@@ -9,11 +9,20 @@ import {MdHome, MdSearch, MdOutlineNotificationsActive, MdOutlineSettingsSuggest
 import {TbMessages} from 'react-icons/tb'
 import {CgProfile} from 'react-icons/cg'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-
-export default function Example() {
+export default function Example({ setAuth }) {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const logout = e => {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user_id');
+    toast.success('Logout successfully!');
+    setAuth(false);
+    navigate('/login');
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,13 +90,20 @@ export default function Example() {
           About Us
         </ListItem>
         <div className='flex flex-col bottom-0 pb-5 w-full max-w-[17rem]'>
-            <ListItem className='hover:bg-yellow border-b border-b-[yellow]  hover:text-black p-3'>
-            <ListItemPrefix className='pr-5'>
-                <CgProfile className="h-10 w-10" />
-            </ListItemPrefix>
-            Profile
+            <ListItem 
+              className='hover:bg-yellow border-b border-b-[yellow]  hover:text-black p-3'
+              // goes to profile page
+              onClick={() => navigate(`/profile/${localStorage.getItem('user_id')}`)}
+              >
+              <ListItemPrefix className='pr-5'>
+                  <CgProfile className="h-10 w-10" />
+              </ListItemPrefix>
+              Profile
             </ListItem>
-            <ListItem className='hover:bg-red-500 border-b border-b-red-500 hover:text-black p-3 ' onClick={() => navigate('/login')}>
+            <ListItem 
+              className='hover:bg-red-500 border-b border-b-red-500 hover:text-black p-3 '
+              onClick={logout}
+            >
             <ListItemPrefix className='pr-5'>
                 <MdLogout className="h-10 w-10" />
             </ListItemPrefix>
@@ -95,6 +111,7 @@ export default function Example() {
             </ListItem>
         </div>
       </List>
+      {/* <Example setAuth={setAuth} /> */}
     </div>
   );
 }

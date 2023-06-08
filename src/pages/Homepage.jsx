@@ -5,11 +5,11 @@ import Sidebar from '../components/OptionBar/Sidebar'
 import NavbarChoice from '../components/OptionBar/NavbarChoice'
 import Post from '../components/Post/Post'
 
-const Homepage = () => {
+const Homepage = ({ setAuth }) => {
   return (
     <div>
-        <Navbar />
-        <Sidebar />
+        <Navbar setAuth={setAuth} />
+        <Sidebar setAuth={setAuth} />
         <NavbarChoice />
         <Post />
         <div className='h-4 sm:h-0'></div>

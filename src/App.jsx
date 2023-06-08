@@ -1,16 +1,20 @@
-import { BrowserRouter as Router, Routes, Route,  } from 'react-router-dom' 
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import Register from './pages/Register'
-import Homepage from './pages/Homepage'
-import NotFound from './pages/NotFound'
-import Login from './pages/Login'
-import Search from './pages/Search'
-import Chat from './pages/Chat'
-import DetailChat from './pages/DetailChat'
+import Register from './pages/Register';
+import Homepage from './pages/Homepage';
+import NotFound from './pages/NotFound';
+import Login from './pages/Login';
+import Search from './pages/Search';
+import Chat from './pages/Chat';
+import DetailChat from './pages/DetailChat';
+import Profile from './pages/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { user_id } = useParams();
+
+  console.log(user_id);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -34,51 +38,49 @@ const App = () => {
 
   useEffect(() => {
     isAuth();
-  });
+  }, []);
 
   return (
     <Router>
       <Routes>
         <Route
-          exact
           path="/login"
           element={isAuthenticated ? <Navigate to="/homepage" /> : <Login setAuth={setAuth} />}
         />
         <Route
-          exact
           path="/homepage"
           element={
-            isAuthenticated ? <Homepage setAuth={setAuth} /> : <Navigate to="/login" />
+            isAuthenticated ? (
+              <Homepage setAuth={setAuth} />
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
-        <Route 
-          exact 
-          path='/register' 
+        <Route
+          path="/register"
           element={isAuthenticated ? <Navigate to="/homepage" /> : <Register />}
         />
-        <Route 
-          exact 
-          path='/search' 
+        <Route
+          path="/search"
           element={isAuthenticated ? <Search /> : <Navigate to="/login" />}
         />
-        <Route 
-          exact 
-          path='/chat' 
+        <Route
+          path="/chat"
           element={isAuthenticated ? <Chat /> : <Navigate to="/login" />}
         />
-        <Route 
-          exact 
-          path='/detailedChat' 
-          element={isAuthenticated ? <DetailChat /> : <Navigate to="/login" />} 
+        <Route
+          path="/detailedChat"
+          element={isAuthenticated ? <DetailChat /> : <Navigate to="/login" />}
         />
-        <Route 
-          exact 
-          path='*' 
-          element={<NotFound />} 
+        <Route
+          path="/profile/:user_id"
+          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;
