@@ -5,15 +5,17 @@ import { GiOrbDirection, GiShare } from 'react-icons/gi';
 import { BsThreeDots, BsLink45Deg, BsTrash } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 // Create a component for post messages like twitter
-const PostMessages = ({ link }) => {
+const PostMessages = ({ link, inProfileRoute }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const dropdownRef = useRef(null);
   const [tweets, setTweets] = useState([]);
   // Get user id from local storage
   const user_id = localStorage.getItem('user_id');
+  const navigate = useNavigate();
 
   const handleDropdownClick = (index) => {
     if (selectedPost === index) {
@@ -59,7 +61,7 @@ const PostMessages = ({ link }) => {
       case 'Lost':
         return 'bg-[#ff6b00]';
       case 'Found':
-        return 'bg-[#ffd369]';
+        return 'bg-[#CCEB0F]';
       case 'Gotcha!':
         return 'bg-[#21c54f]';
       case 'Share':
@@ -108,10 +110,13 @@ const PostMessages = ({ link }) => {
   };  
 
   return (
-    <div className='md:ml-[20rem] hover:cursor-pointer mb-10 pt-20 sm:ml-[20rem] p-0 bg-transparent'>
+    <div className={`md:ml-[20rem] hover:cursor-pointer mb-10 sm:ml-[20rem] bg-transparent ${inProfileRoute ? 'pt-0' : 'pt-20'}`}>
       {tweets.map((tweet, index) => (
         <div key={index} className='py-2 rounded-lg'>
-          <div className='flex justify-between px-4 items-center'>
+          <div 
+            className='flex justify-between px-4 items-center hover:bg-yellow rounded-xl pt-1 mx-3'
+            onClick={() => navigate(`/profile/${tweet.user_id}`)}
+          >
             <div className='flex items-center'>
               <img src={avatar} alt='avatar' className='h-12 w-12 rounded-full mr-3' />
               <div className='flex flex-col'>
