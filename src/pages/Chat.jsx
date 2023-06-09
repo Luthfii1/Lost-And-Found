@@ -7,21 +7,10 @@ import ListChat from '../components/Chat/ListChat'
 
 const Chat = () => {
   return (
-    <div>
+    <div className=''>
         <Navbar />
         <Sidebar />
         <PickChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
-        <ListChat />
         <ListChat />
         <div className='h-16 sm:hidden'>
         </div>

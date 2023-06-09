@@ -66,7 +66,7 @@ const App = () => {
           element={isAuthenticated ? <Search /> : <Navigate to="/login" />}
         />
         <Route
-          path="/chat"
+          path="/chat/:user_id"
           element={isAuthenticated ? <Chat /> : <Navigate to="/login" />}
         />
         <Route

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoMdSend } from 'react-icons/io';
 import { MdArrowBack } from 'react-icons/md';
 import ava from '../../assets/ava.jpg';

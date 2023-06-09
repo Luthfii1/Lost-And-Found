@@ -21,7 +21,7 @@ const Footer = () => {
     } else if (button === 'Notifications') {
       // Handle notifications navigation
     } else if (button === 'Messages') {
-      navigate('/Chat');
+      navigate(`/Chat/${localStorage.getItem('user_id')}`);
     }
   };
 
