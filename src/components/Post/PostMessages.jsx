@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import avatar from '../../assets/ava.jpg';
 import { FaRegCommentDots, FaTelegramPlane, FaBookmark } from 'react-icons/fa';
-import { GiOrbDirection, GiShare } from 'react-icons/gi';
+import { GiOrbDirection, GiShare, GiCheckMark } from 'react-icons/gi';
 import { BsThreeDots, BsLink45Deg, BsTrash } from 'react-icons/bs';
 import { MdDelete } from 'react-icons/md';
 import { toast } from 'react-toastify';
@@ -109,6 +109,40 @@ const PostMessages = ({ link, inProfileRoute }) => {
     setShowDropdown(false);
   };  
 
+  const handleStatus = async (tweet) => {
+    try {
+      const response = await fetch(`http://localhost:5000/update/${tweet.post_id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          token: localStorage.token,
+        },
+        body: JSON.stringify({ status: 'Gotcha!' }),
+      });
+
+      if (response.ok) {
+        // Update the status of the tweet in the tweets state
+        setTweets((prevTweets) =>
+          prevTweets.map((t) => {
+            if (t.post_id === tweet.post_id) {
+              return { ...t, status: 'Gotcha!' };
+            }
+            return t;
+          })
+        );
+        // Toast to notify we glad to hear that the stuff has been found
+        toast.success('We are glad to hear that the stuff has been found!');
+      } else {
+        toast.error('Failed to update status. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      toast.error('An error occurred. Please try again later.');
+    }
+
+    setShowDropdown(false);
+  };
+
   return (
     <div className={`md:ml-[20rem] hover:cursor-pointer mb-10 sm:ml-[20rem] bg-transparent ${inProfileRoute ? 'pt-0' : 'pt-20'}`}>
       {tweets.map((tweet, index) => (
@@ -145,7 +179,15 @@ const PostMessages = ({ link, inProfileRoute }) => {
               <FaRegCommentDots className='h-6 w-6 mr-2' />
               <span className='text-sm'>121</span>
             </div>
-            <div className='flex items-center'>
+            <div 
+              className='flex items-center'
+              // when clicked will navigate to detailedchat page and set localStorage to the user_id of the tweet
+              onClick={() => {
+                console.log(tweet.user_id);
+                localStorage.setItem('interlocutor_id', tweet.user_id);
+                navigate(`/detailedchat/${tweet.username}`);
+              }}
+            >
               <FaTelegramPlane className='h-6 w-6 mr-2 text-black' />
               <span className='text-sm text-black'>DM</span>
             </div>
@@ -180,6 +222,16 @@ const PostMessages = ({ link, inProfileRoute }) => {
                       >
                         <MdDelete className='h-6 w-6 mr-2 text-black' />
                         Delete
+                      </li>
+                    )}
+                    {/* Set 'have founded' when the status is Lost and the tweet.user_id = user_id */}
+                    {tweet.status === 'Lost' && tweet.user_id.toString() === user_id && (
+                      <li
+                        className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow'
+                        onClick={() => handleStatus(tweet)}
+                      >
+                        <GiCheckMark className='h-6 w-6 mr-2 text-black' />
+                        Have Founded
                       </li>
                     )}
                   </ul>

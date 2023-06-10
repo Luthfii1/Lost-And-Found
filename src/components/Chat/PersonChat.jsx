@@ -75,7 +75,7 @@ const PersonChat = () => {
 
       {/* Messages */}
       <div className="sm:ml-[20rem] pb-16">
-        <div className="flex max-w-[1240px] flex-col-reverse overflow-y-auto h-[calc(100vh-5rem-4rem)]">
+        <div className="flex max-w-[1240px] pt-20 flex-col-reverse overflow-y-auto h-[calc(100vh-5rem-4rem)]">
           <div className="flex flex-col-reverse">
             {messages.map((message) => (
               // Sender
