@@ -109,6 +109,34 @@ const PostMessages = ({ link, inProfileRoute }) => {
     setShowDropdown(false);
   };  
 
+  // Create a room chat for the post
+  // link: http://localhost:5000/chat/add/:localStorage.user_id/:tweet.user_id
+  const handleCreateRoomChat = async (tweet) => {
+    try {
+      const response = await fetch(`http://localhost:5000/chat/add/${localStorage.getItem('user_id')}/${tweet.user_id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          token: localStorage.token,
+        },
+      });
+
+      if (response.ok) {
+        // Redirect to the chat room
+        navigate(`/detailedchat/${tweet.username}`);
+      } else {
+        toast.error('Failed to create room chat. Please try again.');
+      }
+
+    } catch (error) {
+      console.error('Error creating room chat:', error);
+      toast.error('An error occurred. Please try again later.');
+    }
+
+    setShowDropdown(false);
+  };
+
+
   const handleStatus = async (tweet) => {
     try {
       const response = await fetch(`http://localhost:5000/update/${tweet.post_id}`, {
@@ -183,9 +211,8 @@ const PostMessages = ({ link, inProfileRoute }) => {
               className='flex items-center'
               // when clicked will navigate to detailedchat page and set localStorage to the user_id of the tweet
               onClick={() => {
-                console.log(tweet.user_id);
                 localStorage.setItem('interlocutor_id', tweet.user_id);
-                navigate(`/detailedchat/${tweet.username}`);
+                handleCreateRoomChat(tweet);
               }}
             >
               <FaTelegramPlane className='h-6 w-6 mr-2 text-black' />
