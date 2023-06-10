@@ -49,23 +49,30 @@ const ListChat = () => {
   return (
     <>
       {chats.map((chat) => {
-        const username =
+        const username_friend =
           localStorage.getItem('user_id') === chat.person_1.toString()
             ? chat.username_2
             : chat.username_1;
 
-          const timeDiff = getTimeDifference(chat.last_time);
+        const timeDiff = getTimeDifference(chat.last_time);
+
+        const navigateToChat = () => {
+          const userId = localStorage.getItem('user_id');
+          const interlocutorId = userId === chat.person_1.toString() ? chat.person_2 : chat.person_1;
+          localStorage.setItem('interlocutor_id', interlocutorId);
+          navigate(`/detailedchat/${username_friend}`);
+        };
 
         return (
           <div
             key={chat.id_room}
             className="flex hover:bg-yellow rounded-xl sm:ml-[20rem] left-0 right-0 hover:cursor-pointer justify-between items-center px-4 py-4"
-            onClick={() => navigate('/detailedchat')}
+            onClick={navigateToChat}
           >
             <div className="flex items-center max-w-[1240px]">
               <img className="w-12 h-12 rounded-full" src={ava} alt="ava" />
               <div className="ml-4">
-                <div className="font-medium text-black ">{username}</div>
+                <div className="font-medium text-black ">{username_friend}</div>
                 <div className="text-[#717978] text-sm ">{chat.last_message}</div>
               </div>
             </div>

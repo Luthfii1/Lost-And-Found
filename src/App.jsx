@@ -12,9 +12,10 @@ import Profile from './pages/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { user_id } = useParams();
+  const { user_id, username_friend } = useParams();
 
   console.log(user_id);
+  console.log(username_friend);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
@@ -70,7 +71,7 @@ const App = () => {
           element={isAuthenticated ? <Chat /> : <Navigate to="/login" />}
         />
         <Route
-          path="/detailedChat"
+          path="/detailedChat/:username_friend"
           element={isAuthenticated ? <DetailChat /> : <Navigate to="/login" />}
         />
         <Route
