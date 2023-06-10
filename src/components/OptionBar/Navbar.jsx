@@ -53,7 +53,7 @@ const Navbar = ({ setAuth }) => {
           <ul className="uppercase">
             <li 
               className="p-4 flex items-center hover:bg-yellow hover:text-black border-b border-b-[yellow]"
-              onClick={() => navigate('/profile')}
+              onClick={() => navigate(`/profile/${localStorage.getItem('user_id')}`)}
               >
               <CgProfile className="h-10 pr-2 w-10" />
               Profile

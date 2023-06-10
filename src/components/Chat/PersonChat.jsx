@@ -36,7 +36,6 @@ const PersonChat = () => {
       });
 
       const parseRes = await response.json();
-      console.log(parseRes);
       getMessages();
       inputRef.current.value = ''; // Clear the input field after sending the message
     } catch (err) {
