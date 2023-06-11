@@ -12,10 +12,6 @@ import Profile from './pages/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const { user_id, username_friend } = useParams();
-
-  console.log(user_id);
-  console.log(username_friend);
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);

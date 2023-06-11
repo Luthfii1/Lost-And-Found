@@ -2,20 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import header from '../../assets/header.jpg';
 import avatar from '../../assets/ava.jpg';
-import { AiFillPushpin, AiOutlineEdit, AiOutlineMessage } from 'react-icons/ai';
+import { AiFillPushpin, AiOutlineEdit, AiOutlineMessage, AiOutlineClose } from 'react-icons/ai';
 import { FaBirthdayCake, FaUserFriends } from 'react-icons/fa';
 import { MdArrowBack } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import PostMessages from '../Post/PostMessages';
 import { toast } from 'react-toastify';
+import EditProfile from './EditProfile';
 
 const HeaderProfile = ({ id }) => {
     const { user_id } = useParams();
     const navigate = useNavigate();
     const [activeButton, setActiveButton] = useState('All');
     const [link, setLink] = useState(`http://localhost:5000/posts/all/${user_id}`);
-
+    const [editProfileModal, setEditProfileModal] = useState(false);
     const [user, setUser] = useState([]);
+    // account include username, name, bio, jurusan_kuliah, birth_date, photo_profile, photo_header
+    const [birth_date, setBirth_date] = useState('');
+    const [photo_profile, setPhoto_profile] = useState('');
+    const [photo_header, setPhoto_header] = useState('');
+    const [name, setName] = useState('');
+    const [username, setUsername] = useState('');
+    const [bio, setBio] = useState('');
+    const [jurusan_kuliah, setjurusan_kuliah] = useState('');
+
+
     const getUser = async () => {
         try {
         const response = await fetch(`http://localhost:5000/user/${user_id}`, {
@@ -35,7 +46,7 @@ const HeaderProfile = ({ id }) => {
     }, []);
 
     const date = new Date(user.birth_date);
-    const birth_date =
+    const birth_date_constant =
         date.getDate() +
         ' ' +
         date.toLocaleString('default', { month: 'long' }) +
@@ -91,6 +102,53 @@ const HeaderProfile = ({ id }) => {
         }
     };
 
+    const handleEditProfile = () => {
+        setEditProfileModal(true);
+    };
+
+    // handleUpdateProfile
+    const handleUpdateProfile = async (e) => {
+        e.preventDefault();
+        try {
+            const body = {
+                birth_date,
+                // photo_profile,
+                // photo_header,
+                name,
+                username,
+                bio,
+                jurusan_kuliah,
+            };
+            const response = await fetch(`http://localhost:5000/user/update/${user_id}`, {
+                method: 'PUT',
+                headers: {
+                'Content-Type': 'application/json',
+                token: localStorage.token,
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (response.ok) {
+                // Redirect to the chat room
+                toast.success('Profile updated successfully!');
+                setEditProfileModal(false);
+                getUser();
+                setBio('');
+                setBirth_date('');
+                setjurusan_kuliah('');
+                setName('');
+                setUsername('');
+            } else {
+                toast.error('Failed to update profile. Please try again.');
+            }
+
+        } catch (error) {
+        console.error('Error updating profile:', error);
+        toast.error('An error occurred. Please try again later.');
+        }
+    };
+
+
     return (
         <div>
         <div className="fixed sm:left-[20rem] bg-white z-10 bg-blend-screen top-0 left-0 right-0 items-center justify-between text-black px-4 py-3 border-b border-yellow">
@@ -120,19 +178,19 @@ const HeaderProfile = ({ id }) => {
             <div className="flex justify-between">
                 {/* Set in the left */}
                 <div className="flex flex-col">
-                    <div className="profile-header-bio-major flex items-center mt-2">
+                    <div className="profile-header-bio-jurusan_kuliah flex items-center mt-2">
                     <AiFillPushpin className="text-gray-800" />
                     <h1 className="text-xs font-bold text-gray-500 ml-1">{user.jurusan_kuliah}</h1>
                     </div>
                     <div className="profile-header-bio-born flex items-center mt-2">
                     <FaBirthdayCake className="text-gray-800" />
-                    <h1 className="text-xs font-bold text-gray-500 ml-1">{birth_date}</h1>
+                    <h1 className="text-xs font-bold text-gray-500 ml-1">{birth_date_constant}</h1>
                     </div>
                 </div>
                 {/* Set in the right */}
                 <div className="flex flex-col items-end ml-auto mr-3">
                     <div 
-                    className="profile-header-bio-major flex items-center mt-2 hover:cursor-pointer"
+                    className="profile-header-bio-jurusan_kuliah flex items-center mt-2 hover:cursor-pointer"
                     onClick={() => {
                         localStorage.setItem('interlocutor_id', user.user_id);
                         handleCreateRoomChat(user);
@@ -146,9 +204,13 @@ const HeaderProfile = ({ id }) => {
                         </h1>
                     </div>
                     {user.user_id === localStorage.getItem('user_id') && (
-                        <div className="profile-header-bio-born flex items-center mt-2">
-                        <AiOutlineEdit className="text-gray-800" />
-                        <h1 className="text-xs font-bold text-gray-500 ml-1">Edit Profile</h1>
+                        <div 
+                            className="profile-header-bio-born flex items-center mt-2"
+                            // onClick activate the edit profile modal
+                            onClick={() => setEditProfileModal(true)}
+                            >
+                            <AiOutlineEdit className="text-gray-800" />
+                            <h1 className="text-xs font-bold text-gray-500 ml-1">Edit Profile</h1>
                         </div>
                     )}
                 </div>
@@ -157,7 +219,7 @@ const HeaderProfile = ({ id }) => {
         <div className="profile-header-divider sm:max-w-[1240px] sm:ml-[20rem] flex justify-center mt-4">
             <div className="w-full h-0.5 bg-gray-300"></div>
         </div>
-        <div className="profile-header-button sticky bg-[#222831] pb-1 rounded-b-lg mb-5 top-12 pt-2 flex-col sm:max-w-[1240px] px-5 sm:ml-[20rem] flex justify-center z-10">
+        <div className="profile-header-button sticky bg-[#222831] pb-1 rounded-b-lg mb-5 top-12 pt-2 flex-col sm:max-w-[1240px] px-5 sm:ml-[20rem] flex justify-center ">
             <div className="flex items-between justify-evenly">
             <div className="profile-header-button-all flex items-center justify-center">
                 <h1
@@ -202,6 +264,89 @@ const HeaderProfile = ({ id }) => {
             </div>
         </div>
         <PostMessages link={link} inProfileRoute={true} />
+        {/* Create for edit profile to update header image, photo profile, name, username, bio, jurusan_kuliah and birth_data */}
+        { editProfileModal && (
+            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50  z-5 flex justify-center items-center">
+                <div className="bg-white w-5/6 rounded-lg h-3/4">
+                    <div className="flex justify-between items-center px-5 py-3">
+                        <h1 className="text-xl font-bold text-gray-800">Edit Profile</h1>
+                        <AiOutlineClose
+                            className="text-xl text-gray-800 hover:cursor-pointer"
+                            onClick={() => setEditProfileModal(false)}
+                        />
+                    </div>
+                    <div className="profile-header sm:max-w-[1200px] left-0 right-0 pt-2 w-full h-auto pb-5 rounded-b-2xl bg-yellow sm:ml-[20rem]">
+                        <div className="profile-header-background items-center flex justify-center relative">
+                            <img src={header} alt="" className="h-30 rounded-2xl w-3/4 sm:w-1/3" />
+                            <div className="profile-header-picture absolute -bottom-2 left-1/2 transform -translate-x-1/2 -mb-10">
+                            <img src={avatar} alt="" className="h-20 w-20 rounded-full p-1.5 bg-white" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-start ml-4 mt-5">
+                        <div className="flex items-center justify-between w-full">
+                            <h1 className="text-lg font-bold text-gray-800">Name</h1>
+                            <input
+                            type="text"
+                            className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
+                    <div className="flex items-center justify-between w-full">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5">Username</h1>
+                        <input
+                        type="text"
+                        className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        />
+                    </div>
+                    <div className="flex items-center justify-between w-full">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5">Bio</h1>
+                        <textarea
+                        type="text"
+                        className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
+                        value={bio}
+                        onChange={(e) => setBio(e.target.value)}
+                        />
+                    </div>
+                    <div className="flex items-center justify-between w-full">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5">major</h1>
+                        <select
+                        className="border-2 text-black text-sm border-gray-300 rounded-lg  py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
+                        value={jurusan_kuliah}
+                        onChange={(e) => setjurusan_kuliah(e.target.value)}
+                        >
+                        <option value="">Select major</option>
+                        <option value="TEKNIK KOMPUTER">TEKNIK KOMPUTER</option>
+                        <option value="TEKNIK SIPIL">TEKNIK SIPIL</option>
+                        <option value="TEKNIK PERKAPALAN">TEKNIK PERKAPALAN</option>
+                        <option value="TEKNIK MESIN">TEKNIK MESIN</option>
+                        <option value="ARSITEKTUR">ARSITEKTUR</option>
+                        </select>
+                    </div>
+                    <div className="flex items-center justify-between w-full">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5">Birth Date</h1>
+                        <input
+                        type="date"
+                        className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
+                        value={birth_date}
+                        onChange={(e) => setBirth_date(e.target.value)}
+                        />
+                    </div>
+                    <div className="flex justify-center w-full mt-5">
+                        <button
+                        className="bg-yellow rounded-lg px-5 py-1 hover:cursor-pointer"
+                        onClick={handleUpdateProfile}
+                        >
+                        Update Profile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        )}
         </div>
     );
 };
