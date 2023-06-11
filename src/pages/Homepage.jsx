@@ -12,7 +12,7 @@ const Homepage = ({ setAuth }) => {
         <Sidebar setAuth={setAuth} />
         <NavbarChoice />
         <Post />
-        <div className='h-4 sm:h-0'></div>
+        <div className='h-10 sm:h-0'></div>
         <Footer />
     </div>
   )

@@ -8,6 +8,8 @@ const DetailChat = () => {
     <div>
         <Sidebar />
         <PersonChat />
+        <div className='h-20'>
+        </div>
         <Footer />
     </div>
   )

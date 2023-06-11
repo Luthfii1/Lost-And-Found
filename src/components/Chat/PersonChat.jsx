@@ -59,7 +59,7 @@ const PersonChat = () => {
   return (
     <>
       {/* Header */}
-      <div className="fixed sm:left-[20rem] bg-white top-0 left-0 right-0 items-center justify-between text-black px-4 py-4 border-b border-yellow">
+      <div className="fixed sm:left-[20rem] bg-white backdrop-blur-md bg-opacity-50 z-5 top-0 left-0 right-0 items-center justify-between text-black px-4 py-4 border-b border-yellow">
         <div className="flex items-center">
           <div className="hover:cursor-pointer" onClick={handleGoBack}>
             <MdArrowBack className="text-2xl text-black mr-4" />

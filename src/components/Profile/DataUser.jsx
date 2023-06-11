@@ -8,7 +8,6 @@ import { MdArrowBack } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import PostMessages from '../Post/PostMessages';
 import { toast } from 'react-toastify';
-import EditProfile from './EditProfile';
 
 const HeaderProfile = ({ id }) => {
     const { user_id } = useParams();
@@ -18,24 +17,33 @@ const HeaderProfile = ({ id }) => {
     const [editProfileModal, setEditProfileModal] = useState(false);
     const [user, setUser] = useState([]);
     // account include username, name, bio, jurusan_kuliah, birth_date, photo_profile, photo_header
-    const [birth_date, setBirth_date] = useState('');
+    const [birth_date, setBirth_date] = useState(user.birth_date || ''); // Default: user.birth_date or empty string
     const [photo_profile, setPhoto_profile] = useState('');
     const [photo_header, setPhoto_header] = useState('');
-    const [name, setName] = useState('');
-    const [username, setUsername] = useState('');
-    const [bio, setBio] = useState('');
-    const [jurusan_kuliah, setjurusan_kuliah] = useState('');
-
-
+    const [name, setName] = useState(user.name || ''); // Default: user.name or empty string
+    const [username, setUsername] = useState(user.username || ''); // Default: user.username or empty string
+    const [bio, setBio] = useState(user.bio || ''); // Default: user.bio or empty string
+    const [jurusan_kuliah, setjurusan_kuliah] = useState(user.jurusan_kuliah || ''); // Default: user.jurusan_kuliah or empty string
+    
+    
     const getUser = async () => {
         try {
-        const response = await fetch(`http://localhost:5000/user/${user_id}`, {
-            method: 'GET',
-            headers: { token: localStorage.token },
-        });
-        const jsonData = await response.json();
+            const response = await fetch(`http://localhost:5000/user/${user_id}`, {
+                method: 'GET',
+                headers: { token: localStorage.token },
+            });
+            const jsonData = await response.json();
 
-        setUser(jsonData);
+            setBirth_date(jsonData.birth_date);
+            setPhoto_profile(jsonData.photo_profile);
+            setPhoto_header(jsonData.photo_header);
+            setName(jsonData.name);
+            setUsername(jsonData.username);
+            setBio(jsonData.bio);
+            setjurusan_kuliah(jsonData.jurusan_kuliah);
+
+            
+            setUser(jsonData);
         } catch (err) {
         console.log(err.message);
         }
@@ -151,7 +159,7 @@ const HeaderProfile = ({ id }) => {
 
     return (
         <div>
-        <div className="fixed sm:left-[20rem] bg-white z-10 bg-blend-screen top-0 left-0 right-0 items-center justify-between text-black px-4 py-3 border-b border-yellow">
+        <div className="fixed sm:left-[20rem] bg-white  backdrop-blur-md bg-opacity-70 z-10 bg-blend-screen top-0 left-0 right-0 items-center justify-between text-black px-4 py-3 border-b  border-yellow">
             <div className="flex items-center">
             <div className="hover:cursor-pointer" onClick={handleGoBack}>
                 <MdArrowBack className="text-xl text-black mr-4" />
@@ -161,9 +169,9 @@ const HeaderProfile = ({ id }) => {
             </div>
             </div>
         </div>
-        <div className="profile-header sm:max-w-[1200px] left-0 right-0 pt-16 w-full h-auto pb-5 rounded-b-2xl bg-yellow sm:ml-[20rem]">
+        <div className="profile-header sm:max-w-[1240px] sm:ml-[20rem] flex justify-center items-center flex-col pt-16 bg-yellow pb-5 rounded-b-2xl">
             <div className="profile-header-background items-center flex justify-center relative">
-                <img src={header} alt="" className="h-30 rounded-2xl w-3/4 sm:w-1/3" />
+                <img src={header} alt="" className="h-30 rounded-2xl w-3/4 sm:w-2/3" />
                 <div className="profile-header-picture absolute -bottom-2 left-1/2 transform -translate-x-1/2 -mb-10">
                     <img src={avatar} alt="" className="h-20 w-20 rounded-full p-1.5 bg-white" />
                 </div>
@@ -178,39 +186,39 @@ const HeaderProfile = ({ id }) => {
             <div className="flex justify-between">
                 {/* Set in the left */}
                 <div className="flex flex-col">
-                    <div className="profile-header-bio-jurusan_kuliah flex items-center mt-2">
+                    <div className="profile-header-bio-jurusan_kuliah flex p-1 items-center mt-4">
                     <AiFillPushpin className="text-gray-800" />
                     <h1 className="text-xs font-bold text-gray-500 ml-1">{user.jurusan_kuliah}</h1>
                     </div>
-                    <div className="profile-header-bio-born flex items-center mt-2">
+                    <div className="profile-header-bio-born flex p-1 items-center mt-2">
                     <FaBirthdayCake className="text-gray-800" />
                     <h1 className="text-xs font-bold text-gray-500 ml-1">{birth_date_constant}</h1>
                     </div>
                 </div>
                 {/* Set in the right */}
-                <div className="flex flex-col items-end ml-auto mr-3">
+                <div className="flex flex-col justify-center items-center ml-auto mr-3">
                     <div 
-                    className="profile-header-bio-jurusan_kuliah flex items-center mt-2 hover:cursor-pointer"
+                    className="profile-header-bio-jurusan_kuliah border-2 p-2 rounded-xl bg-yellow flex items-center mt-2 hover:cursor-pointer"
                     onClick={() => {
                         localStorage.setItem('interlocutor_id', user.user_id);
                         handleCreateRoomChat(user);
                     }}
                     >
-                        <AiOutlineMessage className="text-gray-800" />
+                        <AiOutlineMessage className="text-black" />
                         <h1 
-                            className="text-xs font-bold text-gray-500 ml-1"
+                            className="text-xs font-bold text-black ml-1"
                         >
                         Direct Message
                         </h1>
                     </div>
                     {user.user_id === localStorage.getItem('user_id') && (
                         <div 
-                            className="profile-header-bio-born flex items-center mt-2"
+                            className="profile-header-bio-born flex border-2 p-2 rounded-xl bg-yellow items-center  hover:cursor-pointer"
                             // onClick activate the edit profile modal
                             onClick={() => setEditProfileModal(true)}
                             >
-                            <AiOutlineEdit className="text-gray-800" />
-                            <h1 className="text-xs font-bold text-gray-500 ml-1">Edit Profile</h1>
+                            <AiOutlineEdit className="text-black" />
+                            <h1 className="text-xs font-bold text-black ml-1">Edit Profile</h1>
                         </div>
                     )}
                 </div>
@@ -219,7 +227,7 @@ const HeaderProfile = ({ id }) => {
         <div className="profile-header-divider sm:max-w-[1240px] sm:ml-[20rem] flex justify-center mt-4">
             <div className="w-full h-0.5 bg-gray-300"></div>
         </div>
-        <div className="profile-header-button sticky bg-[#222831] pb-1 rounded-b-lg mb-5 top-12 pt-2 flex-col sm:max-w-[1240px] px-5 sm:ml-[20rem] flex justify-center ">
+        <div className="profile-header-button sticky bg-[#222831] pb-1 rounded-b-lg mb-0 top-12 pt-2 flex-col sm:max-w-[1240px] px-5 sm:ml-[20rem] flex justify-center ">
             <div className="flex items-between justify-evenly">
             <div className="profile-header-button-all flex items-center justify-center">
                 <h1
@@ -266,7 +274,7 @@ const HeaderProfile = ({ id }) => {
         <PostMessages link={link} inProfileRoute={true} />
         {/* Create for edit profile to update header image, photo profile, name, username, bio, jurusan_kuliah and birth_data */}
         { editProfileModal && (
-            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50  z-5 flex justify-center items-center">
+            <div className="fixed top-0 left-0 backdrop-blur-sm w-full h-full bg-black bg-opacity-50 z-5 flex justify-center items-center sm:max-w-[1240px] sm:ml-[20rem]">
                 <div className="bg-white w-5/6 rounded-lg h-3/4">
                     <div className="flex justify-between items-center px-5 py-3">
                         <h1 className="text-xl font-bold text-gray-800">Edit Profile</h1>
@@ -275,7 +283,7 @@ const HeaderProfile = ({ id }) => {
                             onClick={() => setEditProfileModal(false)}
                         />
                     </div>
-                    <div className="profile-header sm:max-w-[1200px] left-0 right-0 pt-2 w-full h-auto pb-5 rounded-b-2xl bg-yellow sm:ml-[20rem]">
+                    <div className="profile-header sm:max-w-[1200px] left-0 right-0 pt-2 w-full h-auto pb-5 rounded-b-2xl bg-yellow">
                         <div className="profile-header-background items-center flex justify-center relative">
                             <img src={header} alt="" className="h-30 rounded-2xl w-3/4 sm:w-1/3" />
                             <div className="profile-header-picture absolute -bottom-2 left-1/2 transform -translate-x-1/2 -mb-10">
@@ -284,8 +292,8 @@ const HeaderProfile = ({ id }) => {
                         </div>
                     </div>
                     <div className="flex flex-col items-start ml-4 mt-5">
-                        <div className="flex items-center justify-between w-full">
-                            <h1 className="text-lg font-bold text-gray-800">Name</h1>
+                        <div className="flex items-center justify-between w-full sm:justify-evenly">
+                            <h1 className="text-lg font-bold text-gray-800 sm:w-40">Name</h1>
                             <input
                             type="text"
                             className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
@@ -293,8 +301,8 @@ const HeaderProfile = ({ id }) => {
                             onChange={(e) => setName(e.target.value)}
                             />
                         </div>
-                    <div className="flex items-center justify-between w-full">
-                        <h1 className="text-lg font-bold text-gray-800 mt-5">Username</h1>
+                    <div className="flex items-center justify-between w-full sm:justify-evenly">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5 sm:w-40">Username</h1>
                         <input
                         type="text"
                         className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
@@ -302,8 +310,8 @@ const HeaderProfile = ({ id }) => {
                         onChange={(e) => setUsername(e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center justify-between w-full">
-                        <h1 className="text-lg font-bold text-gray-800 mt-5">Bio</h1>
+                    <div className="flex items-center justify-between w-full sm:justify-evenly">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5 sm:w-40">Bio</h1>
                         <textarea
                         type="text"
                         className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
@@ -311,8 +319,8 @@ const HeaderProfile = ({ id }) => {
                         onChange={(e) => setBio(e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center justify-between w-full">
-                        <h1 className="text-lg font-bold text-gray-800 mt-5">major</h1>
+                    <div className="flex items-center justify-between w-full sm:justify-evenly">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5 sm:w-40">Major</h1>
                         <select
                         className="border-2 text-black text-sm border-gray-300 rounded-lg  py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
                         value={jurusan_kuliah}
@@ -326,8 +334,8 @@ const HeaderProfile = ({ id }) => {
                         <option value="ARSITEKTUR">ARSITEKTUR</option>
                         </select>
                     </div>
-                    <div className="flex items-center justify-between w-full">
-                        <h1 className="text-lg font-bold text-gray-800 mt-5">Birth Date</h1>
+                    <div className="flex items-center justify-between w-full sm:justify-evenly">
+                        <h1 className="text-lg font-bold text-gray-800 mt-5 sm:w-40">Birth Date</h1>
                         <input
                         type="date"
                         className="border-2 text-black border-gray-300 rounded-lg px-3 py-1 w-1/2 mr-3 sm:w-1/3 mt-2"
@@ -347,6 +355,7 @@ const HeaderProfile = ({ id }) => {
             </div>
         </div>
         )}
+        <div className='h-10 sm:h-0'></div>
         </div>
     );
 };

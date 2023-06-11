@@ -54,7 +54,7 @@ const NavbarChoice = () => {
 
   return (
     <div >
-      <div className={`fixed top-0 left-0 right-0 justify-evenly sm:left-[20rem] text-white bg-black rounded-b-2xl 
+      <div className={`fixed top-0 left-0 right-0 justify-evenly sm:left-[20rem] text-white bg-black bg-opacity-80 z-5 backdrop-blur-md rounded-b-2xl 
         ${isMobile ? `${showNavbar ? 'flex' : 'hidden'}` : 'flex z-10'}`}>
 
       <div className='max-w-[1240px] flex '>
@@ -64,7 +64,7 @@ const NavbarChoice = () => {
         <div className='flex items-center place-items-center justify-evenly h-20 px-4'>
           <button
             className={`p-2 w-16 rounded-md font-semibold ${
-              activeButton === 'All' ? 'bg-yellow text-black' : 'bg-slate-400 text-white'
+              activeButton === 'All' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('All')}
             // passing this button the 'http://localhost:5000/posts/' to PostMessages.jsx
@@ -73,7 +73,7 @@ const NavbarChoice = () => {
           </button>
           <button
             className={`p-2 w-16 ml-5 rounded-md font-semibold ${
-              activeButton === 'Lost' ? 'bg-yellow text-black' : 'bg-slate-400 text-white'
+              activeButton === 'Lost' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('Lost')}
             // passing this button the 'http://localhost:5000/posts/lost' to PostMessages.jsx
@@ -82,7 +82,7 @@ const NavbarChoice = () => {
           </button>
           <button
             className={`p-2 w-16 ml-5 rounded-md font-semibold ${
-              activeButton === 'Found' ? 'bg-yellow text-black' : 'bg-slate-400 text-white'
+              activeButton === 'Found' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('Found')}
             // passing this button the 'http://localhost:5000/posts/found' to PostMessages.jsx
@@ -91,7 +91,7 @@ const NavbarChoice = () => {
           </button>
           <button
             className={`p-2 w-16 ml-5 rounded-md font-semibold ${
-              activeButton === 'Share' ? 'bg-yellow text-black' : 'bg-slate-400 text-white'
+              activeButton === 'Share' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('Share')}
             // passing this button the 'http://localhost:5000/posts/share' to PostMessages.jsx

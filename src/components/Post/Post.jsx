@@ -90,6 +90,7 @@ const Post = () => {
       </div>
 
       {showForm && (
+        <div className='fixed top-0 left-0 w-full h-full bg-black backdrop-blur-sm bg-opacity-50 z-5 flex justify-center items-center'>
         <form
           ref={formRef}
           className='bg-[#fafafa] bg-opacity-90 sm:mx-10 rounded-lg w-full h-auto top-24 mx-auto mt-0 sm:mt-0 sm:left-[20rem] sm:right-0 sm:w-auto sm:h-auto fixed'
@@ -109,7 +110,7 @@ const Post = () => {
                     setStatus('Lost');
                   }}
                   onChange={(e) => setStatus(e.target.value)}
-                >
+                  >
                   <span className='mx-auto'>Lost</span>
                 </div>
                 <div
@@ -133,7 +134,7 @@ const Post = () => {
                     setStatus('Found');
                   }}
                   onChange={(e) => setStatus(e.target.value)}
-                >
+                  >
                   <span className='mx-auto'>Found</span>
                 </div>
               </div>
@@ -147,7 +148,7 @@ const Post = () => {
               type='text'
               value={post_txt}
               onChange={(e) => setPost_txt(e.target.value)}
-            ></input>
+              ></input>
           </div>
           {/* A footer to add location and image in the left side also send in the right side */}
           <div className='flex justify-between items-center px-4 pt-2 rounded-b-lg pb-3 bg-yellow'>
@@ -163,6 +164,7 @@ const Post = () => {
             </div>
           </div>
         </form>
+      </div>
       )}
       <ToastContainer />
     </div>

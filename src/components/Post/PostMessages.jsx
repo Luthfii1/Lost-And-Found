@@ -59,9 +59,9 @@ const PostMessages = ({ link, inProfileRoute }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Lost':
-        return 'bg-[#ff6b00]';
+        return 'bg-[#C70039]';
       case 'Found':
-        return 'bg-[#CCEB0F]';
+        return 'bg-[#ff6b00]';
       case 'Gotcha!':
         return 'bg-[#21c54f]';
       case 'Share':
@@ -172,11 +172,11 @@ const PostMessages = ({ link, inProfileRoute }) => {
   };
 
   return (
-    <div className={`md:ml-[20rem] hover:cursor-pointer mb-10 sm:ml-[20rem] bg-transparent ${inProfileRoute ? 'pt-0' : 'pt-20'}`}>
+    <div className={`md:ml-[20rem] hover:cursor-pointer mb-10 sm:ml-[20rem] bg-transparent ${inProfileRoute ? '-m-py' : 'pt-20'}`}>
       {tweets.map((tweet, index) => (
-        <div key={index} className='py-2 rounded-lg'>
+        <div key={index} className='pt-1 rounded-lg'>
           <div 
-            className='flex justify-between px-4 items-center hover:bg-yellow rounded-xl pt-1 mx-3'
+            className='flex justify-between px-4 items-center hover:bg-yellow rounded-xl pt-2 mx-3'
             onClick={() => navigate(`/profile/${tweet.user_id}`)}
           >
             <div className='flex items-center'>
@@ -231,7 +231,7 @@ const PostMessages = ({ link, inProfileRoute }) => {
                 onClick={() => handleDropdownClick(index)}
               />
               {selectedPost === index && showDropdown && (
-                <div ref={dropdownRef} className='absolute right-5 mb-20 bg-white rounded-lg shadow-lg'>
+                <div ref={dropdownRef} className='absolute right-5 mb-20 bg-black bg-opacity-30  backdrop-blur-sm rounded-lg shadow-lg'>
                   <ul className=''>
                     <li className='text-black py-2 flex pr-4 pl-2 rounded-lg hover:bg-yellow'>
                       <GiShare className='h-6 w-6 mr-2 text-black' />

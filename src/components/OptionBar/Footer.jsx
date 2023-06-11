@@ -26,7 +26,7 @@ const Footer = () => {
   };
 
   return (
-    <div className='fixed bottom-0 left-0 w-full rounded-t-2xl sm:hidden h-16 bg-black text-white flex justify-around items-center'>
+    <div className='fixed bottom-0 left-0 w-full  rounded-t-2xl sm:hidden h-16 bg-black text-white flex justify-around items-center'>
       <MdHome
         className={`h-10 w-10 ${activeButton === 'Home' ? 'opacity-100' : 'opacity-50'}`}
         onClick={() => handleButtonClick('Home')}
