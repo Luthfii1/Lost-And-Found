@@ -3,7 +3,7 @@ import Navbar from '../components/OptionBar/Navbar'
 import Footer from '../components/OptionBar/Footer'
 import Sidebar from '../components/OptionBar/Sidebar'
 import Achievement from '../components/Search/Achievement'
-import Trending from '../components/Search/trending'
+import Trending from '../components/Search/Trending'
 
 const Search = () => {
   return (
