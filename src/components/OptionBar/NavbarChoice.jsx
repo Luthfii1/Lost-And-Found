@@ -10,11 +10,11 @@ const NavbarChoice = () => {
     // Define the corresponding link based on the button
     let link = 'https://lost-and-found-be.vercel.app/posts';
     if (button === 'Lost') {
-      link = 'http://localhost:5000/posts/lost';
+      link = 'https://lost-and-found-be.vercel.app/posts/lost';
     } else if (button === 'Found') {
-      link = 'http://localhost:5000/posts/found';
+      link = 'https://lost-and-found-be.vercel.app/posts/found';
     } else if (button === 'Share') {
-      link = 'http://localhost:5000/posts/share';
+      link = 'https://lost-and-found-be.vercel.app/posts/share';
     }
     // Pass the link to the callback function
     // updateTweetData(link);
@@ -67,7 +67,7 @@ const NavbarChoice = () => {
               activeButton === 'All' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('All')}
-            // passing this button the 'http://localhost:5000/posts/' to PostMessages.jsx
+            // passing this button the 'https://lost-and-found-be.vercel.app/posts/' to PostMessages.jsx
             >
             All
           </button>
@@ -76,7 +76,7 @@ const NavbarChoice = () => {
               activeButton === 'Lost' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('Lost')}
-            // passing this button the 'http://localhost:5000/posts/lost' to PostMessages.jsx
+            // passing this button the 'https://lost-and-found-be.vercel.app/posts/lost' to PostMessages.jsx
             >
             Lost
           </button>
@@ -85,7 +85,7 @@ const NavbarChoice = () => {
               activeButton === 'Found' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('Found')}
-            // passing this button the 'http://localhost:5000/posts/found' to PostMessages.jsx
+            // passing this button the 'https://lost-and-found-be.vercel.app/posts/found' to PostMessages.jsx
           >
             Found
           </button>
@@ -94,14 +94,14 @@ const NavbarChoice = () => {
               activeButton === 'Share' ? 'bg-yellow text-black' : 'bg-black text-white'
             }`}
             onClick={() => handleButtonClick('Share')}
-            // passing this button the 'http://localhost:5000/posts/share' to PostMessages.jsx
+            // passing this button the 'https://lost-and-found-be.vercel.app/posts/share' to PostMessages.jsx
             >
             Share
           </button>
         </div>
       </div>
       </div>
-      <PostMessages link={`http://localhost:5000/posts/${activeButton.toLowerCase()}`} />
+      <PostMessages link={`https://lost-and-found-be.vercel.app/posts/${activeButton.toLowerCase()}`} />
     </div>
   );
 };

@@ -86,7 +86,7 @@ const PostMessages = ({ link, inProfileRoute }) => {
   const handleDelete = async (tweet) => {
     try {
       // Send a DELETE request to delete the post by post_id
-      const response = await fetch(`http://localhost:5000/posts/${tweet.post_id}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/posts/${tweet.post_id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -110,10 +110,10 @@ const PostMessages = ({ link, inProfileRoute }) => {
   };  
 
   // Create a room chat for the post
-  // link: http://localhost:5000/chat/add/:localStorage.user_id/:tweet.user_id
+  // link: https://lost-and-found-be.vercel.app/chat/add/:localStorage.user_id/:tweet.user_id
   const handleCreateRoomChat = async (tweet) => {
     try {
-      const response = await fetch(`http://localhost:5000/chat/add/${localStorage.getItem('user_id')}/${tweet.user_id}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/chat/add/${localStorage.getItem('user_id')}/${tweet.user_id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -139,7 +139,7 @@ const PostMessages = ({ link, inProfileRoute }) => {
 
   const handleStatus = async (tweet) => {
     try {
-      const response = await fetch(`http://localhost:5000/update/${tweet.post_id}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/update/${tweet.post_id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

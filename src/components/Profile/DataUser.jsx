@@ -13,7 +13,7 @@ const HeaderProfile = ({ id }) => {
     const { user_id } = useParams();
     const navigate = useNavigate();
     const [activeButton, setActiveButton] = useState('All');
-    const [link, setLink] = useState(`http://localhost:5000/posts/all/${user_id}`);
+    const [link, setLink] = useState(`https://lost-and-found-be.vercel.app/posts/all/${user_id}`);
     const [editProfileModal, setEditProfileModal] = useState(false);
     const [user, setUser] = useState([]);
     // account include username, name, bio, jurusan_kuliah, birth_date, photo_profile, photo_header
@@ -28,7 +28,7 @@ const HeaderProfile = ({ id }) => {
     
     const getUser = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/user/${user_id}`, {
+            const response = await fetch(`https://lost-and-found-be.vercel.app/user/${user_id}`, {
                 method: 'GET',
                 headers: { token: localStorage.token },
             });
@@ -67,16 +67,16 @@ const HeaderProfile = ({ id }) => {
         let link;
         switch (button) {
         case 'Share':
-            link = `http://localhost:5000/posts/share/${user_id}`;
+            link = `https://lost-and-found-be.vercel.app/posts/share/${user_id}`;
             break;
         case 'Lost':
-            link = `http://localhost:5000/posts/lost/${user_id}`;
+            link = `https://lost-and-found-be.vercel.app/posts/lost/${user_id}`;
             break;
         case 'Found':
-            link = `http://localhost:5000/posts/found/${user_id}`;
+            link = `https://lost-and-found-be.vercel.app/posts/found/${user_id}`;
             break;
         default:
-            link = `http://localhost:5000/posts/all/${user_id}`;
+            link = `https://lost-and-found-be.vercel.app/posts/all/${user_id}`;
             break;
         }
         // Set the link to the state
@@ -89,7 +89,7 @@ const HeaderProfile = ({ id }) => {
 
     const handleCreateRoomChat = async (user) => {
         try {
-        const response = await fetch(`http://localhost:5000/chat/add/${localStorage.getItem('user_id')}/${user.user_id}`, {
+        const response = await fetch(`https://lost-and-found-be.vercel.app/chat/add/${localStorage.getItem('user_id')}/${user.user_id}`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ const HeaderProfile = ({ id }) => {
                 bio,
                 jurusan_kuliah,
             };
-            const response = await fetch(`http://localhost:5000/user/update/${user_id}`, {
+            const response = await fetch(`https://lost-and-found-be.vercel.app/user/update/${user_id}`, {
                 method: 'PUT',
                 headers: {
                 'Content-Type': 'application/json',

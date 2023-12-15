@@ -42,7 +42,7 @@ const Post = () => {
     try {
       const body = { post_txt, status };
       // post/{idFromLocalStorage} is the route to post a new post
-      const response = await fetch(`http://localhost:5000/posts/${localStorage.getItem('user_id')}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/posts/${localStorage.getItem('user_id')}`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
