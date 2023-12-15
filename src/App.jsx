@@ -20,7 +20,7 @@ const App = () => {
   // Set the refresh token
   async function isAuth() {
     try {
-      const response = await fetch('http://localhost:5000/auth/is-verify', {
+      const response = await fetch('https://lost-and-found-be.vercel.app/auth/is-verify', {
         method: 'GET',
         headers: { token: localStorage.token },
       });
@@ -74,7 +74,7 @@ const App = () => {
           path="/profile/:user_id"
           element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
         />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
