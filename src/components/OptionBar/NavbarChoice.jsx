@@ -8,7 +8,7 @@ const NavbarChoice = () => {
   const handleButtonClick = (button) => {
     setActiveButton(button);
     // Define the corresponding link based on the button
-    let link = 'http://localhost:5000/posts';
+    let link = 'https://lost-and-found-be.vercel.app/posts';
     if (button === 'Lost') {
       link = 'http://localhost:5000/posts/lost';
     } else if (button === 'Found') {

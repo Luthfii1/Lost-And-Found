@@ -8,7 +8,7 @@ const ListChat = () => {
 
   const getChat = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/chat/${localStorage.getItem('user_id')}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/chat/${localStorage.getItem('user_id')}`, {
         method: 'GET',
         headers: { token: localStorage.token },
       });

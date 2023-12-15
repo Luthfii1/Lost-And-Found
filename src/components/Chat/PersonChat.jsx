@@ -12,7 +12,7 @@ const PersonChat = () => {
 
   const getMessages = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/chat/${localStorage.getItem('user_id')}/${localStorage.getItem('interlocutor_id')}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/chat/${localStorage.getItem('user_id')}/${localStorage.getItem('interlocutor_id')}`, {
         method: 'GET',
         headers: { token: localStorage.token },
       });
@@ -29,7 +29,7 @@ const PersonChat = () => {
     try {
       const message = inputRef.current.value;
       const body = { message };
-      const response = await fetch(`http://localhost:5000/chat/send/${localStorage.getItem('user_id')}/${localStorage.getItem('interlocutor_id')}`, {
+      const response = await fetch(`https://lost-and-found-be.vercel.app/chat/send/${localStorage.getItem('user_id')}/${localStorage.getItem('interlocutor_id')}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', token: localStorage.token },
         body: JSON.stringify(body),
