@@ -85,6 +85,7 @@ const Login = ({ setAuth }) => {
       <div className='flex flex-col justify-center items-center pt-[1rem]'>
         <h1 className='text-3xl md:text-5xl justify-center text-center font-bold text-black mb-1'>Welcome to <br></br>Lost and Found</h1>
         <h2 className='text-md font-medium mb-5 text-black'>Find your lost item!</h2>
+        <h2 className='text-lg font-medium font-medium mb-5 text-black'>karena terjadinya perubahan database, tolong register ulang ya guys ^_^!</h2>
       </div>
 
       {/* Add login form */}
